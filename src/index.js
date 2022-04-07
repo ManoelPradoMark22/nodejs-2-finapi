@@ -1,32 +1,28 @@
 const express = require("express");
-const { v4: uuidv4 } = require("uuid"); //v4 -> numeros randomicos
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
 app.use(express.json());
-
-/** 
- * cpf - string
- * name - string
- * id - uuid
- * statement []
-*/
 
 const customers = [];
 
 app.post("/account", (request, response) => {
   const { cpf, name } = request.body;
 
-  const id = uuidv4();
+  //.some() pesquisa no array e retorna true or false baseado com a condição q vc passa
+  const customerAlreadyExists = customers.some((customer) => customer.cpf === cpf);
+
+  if(customerAlreadyExists) {
+    return response.status(400).json({error: "Curstomer already exists!"});
+  }
 
   customers.push({
     cpf,
     name,
-    id,
+    id: uuidv4(),
     statement: []
   });
-
-  console.log(customers);
 
   return response.status(201).send();
 });
