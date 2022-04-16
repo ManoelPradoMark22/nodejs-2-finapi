@@ -1,5 +1,5 @@
-<img src="https://i.ibb.co/0jD76jv/bag-ge7078e7fb-640.png" width="25" height="34"/> ## FinApi - Financeira
-
+## FinApi - Financeira
+<img src="https://i.ibb.co/0jD76jv/bag-ge7078e7fb-640.png" width="32" height="44"/>
 
 ---
 
