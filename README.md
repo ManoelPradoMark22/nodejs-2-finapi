@@ -1,4 +1,5 @@
 ## FinApi - Financeira
+<img src="https://i.ibb.co/0jD76jv/bag-ge7078e7fb-640.png" width="18" height="24"/>
 
 ---
 
