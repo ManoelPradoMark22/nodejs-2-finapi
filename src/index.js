@@ -131,8 +131,7 @@ app.put("/account", (request, response) => {
 
 //Obter dados da conta
 app.get("/account", (request, response) => {
-  const { customer } = request;
-  const { statement, ...rest } = customer;
+  const { statement, ...rest } = request.customer;
  
   return response.json(rest);
 });
