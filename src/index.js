@@ -135,7 +135,7 @@ app.get("/account", (request, response) => {
 app.delete("/account", (request, response) => {
   const {customer} = request;
 
-  customers.splice(customer, 1);
+  customers.splice(customers.indexOf(customer),1);
 
   return response.status(200).json(customers);
 });
