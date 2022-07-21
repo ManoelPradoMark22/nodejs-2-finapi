@@ -142,7 +142,7 @@ app.delete("/account", (request, response) => {
 
   customers.splice(customers.indexOf(customer),1);
 
-  return response.status(200).json(customers);
+  return response.status(204).send();
 });
 
 //Obter o balance
