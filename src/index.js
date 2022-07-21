@@ -132,8 +132,9 @@ app.put("/account", (request, response) => {
 //Obter dados da conta
 app.get("/account", (request, response) => {
   const { customer } = request;
-
-  return response.json(customer);
+  const { statement, ...rest } = customer;
+ 
+  return response.json(rest);
 });
 
 //Deletar conta
