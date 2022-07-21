@@ -35,6 +35,7 @@ function getBalance(statement) {
   return balance;
 }
 
+//cadastrar usuário
 app.post("/account", (request, response) => {
   const { cpf, name } = request.body;
 
@@ -56,15 +57,16 @@ app.post("/account", (request, response) => {
 
 app.use(verifyIfExistsAccountCPF);
 
+//listar extrato
 app.get("/statement", (request, response) => {
   const { customer } = request;
 
   return response.json(customer.statement);
 });
 
+//depositar
 app.post("/deposit", (request, response) => {
   const { description, amount } = request.body;
-
   const { customer } = request;
 
   const statementOperation = {
@@ -79,8 +81,9 @@ app.post("/deposit", (request, response) => {
   return response.status(201).send();
 });
 
+//sacar
 app.post("/withdraw", (request, response) => {
-  const { amount } = request.body;
+  const { description, amount } = request.body;
   const { customer } = request;
 
   const balance = getBalance(customer.statement);
@@ -90,6 +93,7 @@ app.post("/withdraw", (request, response) => {
   }
 
   const statementOperation = {
+    description,
     amount,
     created_at: new Date(),
     type: "debit"
@@ -100,6 +104,7 @@ app.post("/withdraw", (request, response) => {
   return response.status(201).send();
 });
 
+//listar extrato por dia
 app.get("/statement/date", (request, response) => {
   const { customer } = request;
   const { date } = request.query;
