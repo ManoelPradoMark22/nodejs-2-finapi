@@ -114,4 +114,14 @@ app.get("/statement/date", (request, response) => {
   return response.json(statement);
 });
 
+//Alterando nome do usuário
+app.put("/account", (request, response) => {
+  const { customer } = request;
+  const { name } = request.body;
+
+  customer.name = name;
+
+  return response.status(201).send();
+});
+
 app.listen(3333);
