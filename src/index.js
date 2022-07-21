@@ -124,4 +124,11 @@ app.put("/account", (request, response) => {
   return response.status(201).send();
 });
 
+//Obter dados da conta
+app.get("/account", (request, response) => {
+  const { customer } = request;
+
+  return response.json(customer);
+});
+
 app.listen(3333);
