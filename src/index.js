@@ -131,4 +131,13 @@ app.get("/account", (request, response) => {
   return response.json(customer);
 });
 
+//Deletar conta
+app.delete("/account", (request, response) => {
+  const {customer} = request;
+
+  customers.splice(customer, 1);
+
+  return response.status(200).json(customers);
+});
+
 app.listen(3333);
