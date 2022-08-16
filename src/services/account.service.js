@@ -4,7 +4,7 @@ async function create(body) {
     try{
         const existingAccount = await AccountModel.findOne({ cpf: body.cpf }).then();
 
-        if(existingAccount!=null) return {error: "Customer already exists!"}
+        if(existingAccount) return {error: "Customer already exists!"}
 
         const accountCreated = await AccountModel.create(body);
         return accountCreated;
@@ -13,7 +13,7 @@ async function create(body) {
     }    
 }
 
-async function listAll(body) {
+async function listAll() {
     try{
         const allAccounts = await AccountModel.find().then();
         return allAccounts;
@@ -22,4 +22,16 @@ async function listAll(body) {
     }    
 }
 
-module.exports = { create, listAll }
+async function getAccount(cpf) {
+    try{
+        const account = await AccountModel.findOne({ cpf: cpf }).then();
+
+        if(!account) return {error: "Customer not found!"}
+
+        return account;
+    }catch(e) {
+        return e;
+    }    
+}
+
+module.exports = { create, listAll, getAccount }

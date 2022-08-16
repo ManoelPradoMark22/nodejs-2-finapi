@@ -13,4 +13,12 @@ async function listAll(req, res) {
     return res.json(allAccounts);
 }
 
-module.exports = { create, listAll }
+async function getAccount(req, res) {
+    const { cpf } = req.headers;
+
+    const allAccounts = await AccountService.getAccount(cpf);
+    
+    return res.json(allAccounts);
+}
+
+module.exports = { create, listAll, getAccount }
