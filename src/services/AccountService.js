@@ -1,10 +1,11 @@
 const AccountModel = require('../models/Account');
+const EnumErrors = require('../support/enum/EnumErrors');
 
-async function create(body) {
+async function createAccount(body) {
     try{
         const existingAccount = await AccountModel.findOne({ cpf: body.cpf }).then();
 
-        if(existingAccount) return {error: "Customer already exists!"}
+        if(existingAccount) return {error: EnumErrors.ALREADY_EXISTS}
 
         const accountCreated = await AccountModel.create(body);
         return accountCreated;
@@ -26,7 +27,7 @@ async function getAccount(cpf) {
     try{
         const account = await AccountModel.findOne({ cpf: cpf }).then();
 
-        if(!account) return {error: "Customer not found!"}
+        if(!account) return {error: EnumErrors.NOT_FOUND}
 
         return account;
     }catch(e) {
@@ -34,4 +35,4 @@ async function getAccount(cpf) {
     }    
 }
 
-module.exports = { create, listAll, getAccount }
+module.exports = { createAccount, listAll, getAccount }

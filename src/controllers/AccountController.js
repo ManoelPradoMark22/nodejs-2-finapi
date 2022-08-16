@@ -1,8 +1,8 @@
-const AccountService = require('../services/account.service');
+const AccountService = require('../services/AccountService');
 
-async function create(req, res) {
+async function createAccount(req, res) {
     const dataBody = req.body
-    const accountCreated = await AccountService.create(dataBody)
+    const accountCreated = await AccountService.createAccount(dataBody)
     
     return res.json(accountCreated);
 }
@@ -21,4 +21,4 @@ async function getAccount(req, res) {
     return res.json(allAccounts);
 }
 
-module.exports = { create, listAll, getAccount }
+module.exports = { createAccount, listAll, getAccount }

@@ -7,13 +7,14 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
-    "dotenv": "^16.0.1",
-    "express": "^4.17.3",
-    "mongodb": "^4.8.1",
-    "mongoose": "^6.5.2",
-    "uuid": "^8.3.2"
+    "dotenv": "16.0.1",
+    "express": "4.17.3",
+    "joi": "17.6.0",
+    "mongodb": "4.8.1",
+    "mongoose": "6.5.2",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "2.0.15"
   }
 }

@@ -1,6 +1,6 @@
-const { app } = require("./config/app/appConfig")
-const { PORT } = require("./config/constants.js")
-const router = require("./routes/routes")
+const { app } = require("./config/app/AppConfig")
+const { PORT } = require("./config/Constants")
+const router = require("./routes/Routes")
 const bodyParser = require("body-parser")
 
 app.use(bodyParser.urlencoded({ extended: false }));
