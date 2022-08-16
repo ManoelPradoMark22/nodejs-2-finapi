@@ -11,7 +11,7 @@ async function createAccount(body) {
         return accountCreated;
     }catch(e) {
         return e;
-    }    
+    }
 }
 
 async function listAll() {
