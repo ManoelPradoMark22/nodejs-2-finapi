@@ -1,6 +1,5 @@
 const AccountService = require('../services/AccountService');
 
-
 async function createAccount(req, res) {
     const dataBody = req.body;
 
