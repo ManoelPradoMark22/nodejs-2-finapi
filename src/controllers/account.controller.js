@@ -7,4 +7,10 @@ async function create(req, res) {
     return res.json(accountCreated);
 }
 
-module.exports = { create }
+async function listAll(req, res) {
+    const allAccounts = await AccountService.listAll()
+    
+    return res.json(allAccounts);
+}
+
+module.exports = { create, listAll }

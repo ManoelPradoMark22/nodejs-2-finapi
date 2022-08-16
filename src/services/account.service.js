@@ -13,4 +13,13 @@ async function create(body) {
     }    
 }
 
-module.exports = { create }
+async function listAll(body) {
+    try{
+        const allAccounts = await AccountModel.find().then();
+        return allAccounts;
+    }catch(e) {
+        return e;
+    }    
+}
+
+module.exports = { create, listAll }
