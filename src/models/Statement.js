@@ -3,9 +3,8 @@ const EnumTypes = require('../support/enum/EnumTypes');
 
 const StatementSchema = new mongoose.Schema(
   {
-    account_cpf: {
+    accountCpf: {
       type: 'string',
-      unique: true,
       required: true
     },
     description: {
@@ -17,7 +16,8 @@ const StatementSchema = new mongoose.Schema(
       required: true
     },
     type: {
-      type: [EnumTypes.TRANSACTION_ENTRY, EnumTypes.TRANSACTION_OUT],
+      type: String,
+      enum: [EnumTypes.TRANSACTION_ENTRY, EnumTypes.TRANSACTION_OUT],
       required: true
     }
   }
