@@ -11,14 +11,32 @@ async function createStatement(body, cpf) {
     }
 }
 
+async function listAllStatements() {
+    try{
+        const allStatements = await StatementModel.find();
+        return allStatements;
+    }catch(e) {
+        return e;
+    }    
+}
+
 async function listStatementByCpf(cpf) {
     try{
         const statements = await StatementModel
-        .find({ accountCpf: cpf }).then();
+        .find({ accountCpf: cpf });
         return statements;
     }catch(e) {
         return e;
     }
 }
 
-module.exports = { createStatement, listStatementByCpf }
+async function deleteAllStatementsByCpf(cpf) {
+    try{
+        const deletedAccount = await StatementModel.deleteMany( { cpf: cpf } );
+        return deletedAccount;
+    }catch(e) {
+        return e;
+    }    
+}
+
+module.exports = { createStatement, listAllStatements, listStatementByCpf, deleteAllStatementsByCpf }

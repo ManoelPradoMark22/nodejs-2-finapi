@@ -7,6 +7,12 @@ async function createStatement(req, res) {
     return res.json(statementCreated);
 }
 
+async function listAllStatements(req, res) {
+    const allStatements = await StatementService.listAllStatements()
+    
+    return res.json(allStatements);
+}
+
 async function listStatementByCpf(req, res) {
     const { cpf } = req.headers;
 
@@ -14,4 +20,12 @@ async function listStatementByCpf(req, res) {
     return res.json(statements);
 }
 
-module.exports = { createStatement, listStatementByCpf }
+async function deleteAllStatementsByCpf(req, res) {
+    const { cpf } = req.headers;
+
+    const deletedStatements = await StatementService.deleteAllStatementsByCpf(cpf);
+    
+    return res.json(deletedStatements);
+}
+
+module.exports = { createStatement, listAllStatements, listStatementByCpf, deleteAllStatementsByCpf }

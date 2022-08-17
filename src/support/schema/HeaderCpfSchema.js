@@ -1,11 +1,12 @@
 const EnumJoi = require('../enum/EnumJoi');
+const EnumErrors = require('../enum/EnumErrors');
 
 module.exports = function validateHeaderCpf(req, res, next) {
   const { cpf } = req.headers;
 
   if(!cpf) return res.status(422).json({
     status: 'error',
-    message: "missing cpf in header"
+    message: EnumErrors.MISSING_CPF_HEADER
   });
 
   const schema = EnumJoi.CPF_JOI;

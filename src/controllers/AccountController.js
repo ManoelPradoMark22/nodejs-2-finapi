@@ -24,9 +24,9 @@ async function getAccount(req, res) {
 async function deleteAccount(req, res) {
     const { cpf } = req.headers;
 
-    const allAccounts = await AccountService.deleteAccount(cpf);
+    const deletedAccount = await AccountService.deleteAccount(cpf);
     
-    return res.json(allAccounts);
+    return res.json(deletedAccount);
 }
 
 module.exports = { createAccount, listAllAccounts, getAccount, deleteAccount }
