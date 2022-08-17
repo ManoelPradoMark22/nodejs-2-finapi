@@ -7,7 +7,7 @@ module.exports = Enum({
 
   CPF_JOI: Joi.string().regex(/^[0-9]+$/).length(11)
   .custom((value, helper) => validateCpf(value) 
-    ? true : helper.message(EnumErrors.INVALID_CPF))
+    ? value : helper.message(EnumErrors.INVALID_CPF))
   .required()
 
 });

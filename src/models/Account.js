@@ -5,6 +5,7 @@ const AccountSchema = new mongoose.Schema(
     cpf: {
       type: 'string',
       unique: true,
+      immutable: true,
       required: true
     },
     name: {
@@ -14,6 +15,8 @@ const AccountSchema = new mongoose.Schema(
   }
 );
 
-const AccountModel = mongoose.model('Account', AccountSchema)
+AccountSchema.set('timestamps', true);
 
-module.exports = AccountModel
+const AccountModel = mongoose.model('Account', AccountSchema);
+
+module.exports = AccountModel;

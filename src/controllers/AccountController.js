@@ -7,6 +7,14 @@ async function createAccount(req, res) {
     return res.json(accountCreated);
 }
 
+async function updateAccount(req, res) {
+    const dataBody = req.body;
+    const { cpf } = req.headers;
+
+    const accountUpdated = await AccountService.updateAccount(dataBody, cpf);
+    return res.json(accountUpdated);
+}
+
 async function listAllAccounts(req, res) {
     const allAccounts = await AccountService.listAllAccounts()
     
@@ -29,4 +37,10 @@ async function deleteAccount(req, res) {
     return res.json(deletedAccount);
 }
 
-module.exports = { createAccount, listAllAccounts, getAccount, deleteAccount }
+module.exports = {
+    createAccount,
+    updateAccount,
+    listAllAccounts,
+    getAccount,
+    deleteAccount
+}

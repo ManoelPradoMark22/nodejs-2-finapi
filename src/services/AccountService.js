@@ -2,13 +2,31 @@ const AccountModel = require('../models/Account');
 const EnumErrors = require('../support/enum/EnumErrors');
 
 async function createAccount(body) {
+    const { cpf } = body;
+
     try{
-        const existingAccount = await AccountModel.findOne({ cpf: body.cpf });
+        const existingAccount = await AccountModel.findOne({ cpf: cpf });
 
         if(existingAccount) return {error: EnumErrors.ALREADY_EXISTS}
 
         const accountCreated = await AccountModel.create(body);
         return accountCreated;
+    }catch(e) {
+        return e;
+    }
+}
+
+async function updateAccount(body, cpf) {
+    try{
+        const accountUpdated = await AccountModel.findOneAndUpdate(
+            { cpf: cpf },
+            body,
+            { returnOriginal: false },
+        );
+            
+        if(!accountUpdated) return {error: EnumErrors.NOT_FOUND};
+
+        return accountUpdated;
     }catch(e) {
         return e;
     }
@@ -44,4 +62,10 @@ async function deleteAccount(cpf) {
     }    
 }
 
-module.exports = { createAccount, listAllAccounts, getAccount, deleteAccount }
+module.exports = {
+    createAccount,
+    updateAccount,
+    listAllAccounts,
+    getAccount,
+    deleteAccount
+}

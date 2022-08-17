@@ -20,10 +20,9 @@ async function listAllStatements() {
     }    
 }
 
-async function listStatementByCpf(cpf) {
+async function listStatementsByCpf(cpf) {
     try{
-        const statements = await StatementModel
-        .find({ accountCpf: cpf });
+        const statements = await StatementModel.find({ accountCpf: cpf });
         return statements;
     }catch(e) {
         return e;
@@ -39,4 +38,9 @@ async function deleteAllStatementsByCpf(cpf) {
     }    
 }
 
-module.exports = { createStatement, listAllStatements, listStatementByCpf, deleteAllStatementsByCpf }
+module.exports = {
+    createStatement,
+    listAllStatements,
+    listStatementsByCpf,
+    deleteAllStatementsByCpf
+}
