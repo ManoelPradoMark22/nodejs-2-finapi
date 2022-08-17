@@ -6,7 +6,7 @@ module.exports = function validateBodyStatement(req, res, next) {
 
   const schema = Joi.object().keys({
     description: Joi.string().max(60).required(),
-    amount: Joi.number().precision(2).required(),
+    amount: Joi.number().precision(2).positive().required(),
     type: Joi.string().valid(...EnumTransactionTypes.values()).required()
   });
 

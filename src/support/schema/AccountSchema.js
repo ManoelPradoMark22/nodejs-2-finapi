@@ -4,9 +4,9 @@ module.exports = function validateBodyAccount(req, res, next) {
   const dataBody = req.body;
 
   const schema = Joi.object().keys({
-    name: Joi.string().uppercase().max(60).required(),
-    cpf: Joi.string().regex(/^[0-9]+$/).max(11).required()
-  }); //min e max 11 ESPECIFICAR!!! cpf e name
+    name: Joi.string().uppercase().min(3).max(60).required(),
+    cpf: Joi.string().regex(/^[0-9]+$/).length(11).required()
+  });
 
   const validate = schema.validate(dataBody);
 
