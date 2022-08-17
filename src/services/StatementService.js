@@ -11,4 +11,14 @@ async function createStatement(body, cpf) {
     }
 }
 
-module.exports = { createStatement }
+async function listStatementByCpf(cpf) {
+    try{
+        const statements = await StatementModel
+        .find({ accountCpf: cpf }).then();
+        return statements;
+    }catch(e) {
+        return e;
+    }
+}
+
+module.exports = { createStatement, listStatementByCpf }

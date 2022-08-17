@@ -7,4 +7,11 @@ async function createStatement(req, res) {
     return res.json(statementCreated);
 }
 
-module.exports = { createStatement }
+async function listStatementByCpf(req, res) {
+    const { cpf } = req.headers;
+
+    const statements = await StatementService.listStatementByCpf(cpf);
+    return res.json(statements);
+}
+
+module.exports = { createStatement, listStatementByCpf }

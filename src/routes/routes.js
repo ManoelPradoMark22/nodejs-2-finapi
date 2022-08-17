@@ -10,7 +10,7 @@ router.get("/all-accounts", (req, res) => AccountController.listAll(req, res));
 router.get("/account", (req, res) => AccountController.getAccount(req, res));
 
 router.use(AccountMiddlewares.checkCpfExists);
-
-router.post("/transaction", (req, res) => StatementController.createStatement(req, res));
+router.post("/statement", (req, res) => StatementController.createStatement(req, res));
+router.get("/statement", (req, res) => StatementController.listStatementByCpf(req, res));
 
 module.exports = router;
