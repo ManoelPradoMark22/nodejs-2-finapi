@@ -7,8 +7,8 @@ async function createAccount(req, res) {
     return res.json(accountCreated);
 }
 
-async function listAll(req, res) {
-    const allAccounts = await AccountService.listAll()
+async function listAllAccounts(req, res) {
+    const allAccounts = await AccountService.listAllAccounts()
     
     return res.json(allAccounts);
 }
@@ -21,4 +21,12 @@ async function getAccount(req, res) {
     return res.json(allAccounts);
 }
 
-module.exports = { createAccount, listAll, getAccount }
+async function deleteAccount(req, res) {
+    const { cpf } = req.headers;
+
+    const allAccounts = await AccountService.deleteAccount(cpf);
+    
+    return res.json(allAccounts);
+}
+
+module.exports = { createAccount, listAllAccounts, getAccount, deleteAccount }

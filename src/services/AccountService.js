@@ -14,7 +14,7 @@ async function createAccount(body) {
     }
 }
 
-async function listAll() {
+async function listAllAccounts() {
     try{
         const allAccounts = await AccountModel.find().then();
         return allAccounts;
@@ -35,4 +35,13 @@ async function getAccount(cpf) {
     }    
 }
 
-module.exports = { createAccount, listAll, getAccount }
+async function deleteAccount(cpf) {
+    try{
+        const deletedAccount = await AccountModel.deleteOne( { cpf: cpf } ).then();
+        return deletedAccount;
+    }catch(e) {
+        return e;
+    }    
+}
+
+module.exports = { createAccount, listAllAccounts, getAccount, deleteAccount }

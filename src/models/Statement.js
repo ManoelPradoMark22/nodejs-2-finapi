@@ -23,6 +23,6 @@ const StatementSchema = new mongoose.Schema(
 
 StatementSchema.set('timestamps', true);
 
-const StatementModel = mongoose.model('Statement', StatementSchema)
+const StatementModel = mongoose.model('Statement', StatementSchema);
 
-module.exports = StatementModel
+module.exports = StatementModel;
