@@ -1,11 +1,12 @@
 const Joi = require('joi');
+const EnumJoi = require('../enum/EnumJoi');
 
 module.exports = function validateBodyAccount(req, res, next) {
   const dataBody = req.body;
 
   const schema = Joi.object().keys({
     name: Joi.string().uppercase().min(3).max(60).required(),
-    cpf: Joi.string().regex(/^[0-9]+$/).length(11).required()
+    cpf: EnumJoi.CPF_JOI
   });
 
   const validate = schema.validate(dataBody);
