@@ -1,5 +1,4 @@
 const { mongoose } = require('../database/MongoConfig');
-const EnumTypes = require('../support/enum/EnumTypes');
 
 const StatementSchema = new mongoose.Schema(
   {
@@ -17,7 +16,6 @@ const StatementSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: [EnumTypes.TRANSACTION_ENTRY, EnumTypes.TRANSACTION_OUT],
       required: true
     }
   }

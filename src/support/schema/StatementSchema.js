@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const EnumTypes = require('../enum/EnumTypes');
+const EnumTransactionTypes = require('../enum/EnumTransactionTypes');
 
 module.exports = function validateBodyStatement(req, res, next) {
   const dataBody = req.body;
@@ -7,7 +7,7 @@ module.exports = function validateBodyStatement(req, res, next) {
   const schema = Joi.object().keys({
     description: Joi.string().max(60).required(),
     amount: Joi.number().precision(2).required(),
-    type: Joi.string().valid(EnumTypes.TRANSACTION_ENTRY, EnumTypes.TRANSACTION_OUT).required()
+    type: Joi.string().valid(...EnumTransactionTypes.values()).required()
   });
 
   const validate = schema.validate(dataBody);
