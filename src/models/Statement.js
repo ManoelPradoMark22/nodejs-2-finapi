@@ -16,16 +16,14 @@ const StatementSchema = new mongoose.Schema(
       type: Number,
       required: true
     },
-    date: {
-      type: Date,
-      required: true
-    },
     type: {
       type: [EnumTypes.TRANSACTION_ENTRY, EnumTypes.TRANSACTION_OUT],
       required: true
     }
   }
 );
+
+StatementSchema.set('timestamps', true);
 
 const StatementModel = mongoose.model('Statement', StatementSchema)
 

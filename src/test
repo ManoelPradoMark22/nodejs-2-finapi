@@ -1,0 +1,6 @@
+const target = { a: 1, b: 2 };
+
+const returnedTarget = Object.assign({cpf: 'dasdas'}, target);
+
+console.log(returnedTarget);
+console.log(target);
