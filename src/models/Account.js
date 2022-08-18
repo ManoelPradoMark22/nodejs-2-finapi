@@ -8,7 +8,21 @@ const AccountSchema = new mongoose.Schema(
       immutable: true,
       required: true
     },
-    name: {
+    email: {
+      type: 'string',
+      unique: true,
+      required: true
+    },
+    cellphone: {
+      type: 'string',
+      unique: true,
+      required: true
+    },
+    firstName: {
+      type: 'string',
+      required: true
+    },
+    lastName: {
       type: 'string',
       required: true
     }

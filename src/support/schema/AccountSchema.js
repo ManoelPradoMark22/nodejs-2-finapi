@@ -16,8 +16,11 @@ function returnValidate(schema, req, res, next){
 
 function validateBodyPOSTaccount(req, res, next) {
   const schema = Joi.object().keys({
-    name: EnumJoi.NAME_JOI.required(),
-    cpf: EnumJoi.CPF_JOI.required()
+    firstName: EnumJoi.NAME_JOI.required(),
+    lastName: EnumJoi.NAME_JOI.required(),
+    cpf: EnumJoi.CPF_JOI.required(),
+    email: EnumJoi.EMAIL_JOI.required(),
+    cellphone: EnumJoi.PHONE_JOI.required()
   }); 
 
   returnValidate(schema, req, res, next);
