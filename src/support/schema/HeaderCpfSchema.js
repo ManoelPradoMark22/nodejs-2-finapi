@@ -6,7 +6,7 @@ module.exports = function validateHeaderCpf(req, res, next) {
 
   if(!cpf) return res.status(422).json({
     status: 'error',
-    message: EnumErrors.MISSING_CPF_HEADER
+    message: EnumErrors.MISSING_CPF
   });
 
   const schema = EnumJoi.CPF_JOI;
