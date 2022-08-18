@@ -28,7 +28,10 @@ function validateBodyPOSTaccount(req, res, next) {
 
 function validateBodyPUTaccount(req, res, next) {
   const schema = Joi.object().keys({
-    name: EnumJoi.NAME_JOI
+    firstName: EnumJoi.NAME_JOI,
+    lastName: EnumJoi.NAME_JOI,
+    email: EnumJoi.EMAIL_JOI,
+    cellphone: EnumJoi.PHONE_JOI
   }).min(1); 
 
   returnValidate(schema, req, res, next);
