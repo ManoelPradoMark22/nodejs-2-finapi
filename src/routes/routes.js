@@ -13,7 +13,7 @@ router.get("/all-statements", (req, res) => StatementController.listAllStatement
 router.use(validateHeaderCpf);
 
 router.get("/account", (req, res) => AccountController.getAccount(req, res));
-router.put("/account", (req, res) => AccountController.updateAccount(req, res));
+router.put("/account", validateBodyAccount, (req, res) => AccountController.updateAccount(req, res));
 
 router.use(AccountMiddlewares.checkCpfExists);
 
