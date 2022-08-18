@@ -30,7 +30,6 @@ async function getAccount(req, res) {
 }
 
 async function deleteAccount(req, res) {
-    //search about cascade
     const { cpf } = req.headers;
 
     const deletedAccount = await AccountService.deleteAccount(cpf);

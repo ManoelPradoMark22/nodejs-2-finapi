@@ -1,5 +1,7 @@
 const AccountModel = require('../models/Account');
+const StatementService = require('../services/StatementService');
 const EnumErrors = require('../support/enum/EnumErrors');
+const EnumSuccess = require('../support/enum/EnumSuccess');
 
 async function createAccount(body) {
     const { cpf } = body;
@@ -56,7 +58,11 @@ async function getAccount(cpf) {
 async function deleteAccount(cpf) {
     try{
         const deletedAccount = await AccountModel.deleteOne( { cpf: cpf } );
-        return deletedAccount;
+        console.log(deletedAccount);
+        await StatementService.deleteAllStatementsByCpf(cpf);
+        if(deletedAccount.acknowledged && (deletedAccount.deletedCount>0)) return EnumSuccess.SUCCESS_DELETE;
+
+        return deletedAccount;  
     }catch(e) {
         return e;
     }    

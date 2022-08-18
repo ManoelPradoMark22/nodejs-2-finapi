@@ -31,7 +31,7 @@ async function listStatementsByCpf(cpf) {
 
 async function getBalanceByCpf(cpf) {
     try{
-        const amount = await StatementModel.aggregate([
+        const arrayBalance = await StatementModel.aggregate([
             { $match: { accountCpf: cpf } },
             { $group: {_id: "$type", amount: {$sum:  "$amount"}} },
         ]);
@@ -42,10 +42,10 @@ async function getBalanceByCpf(cpf) {
             outflow: 0,
         }
 
-        for(let i=0; i<amount.length; i++){
-            amount[i]._id == EnumTransactionTypes.TRANSACTION_ENTRY
-                ? balance.inflow = amount[i].amount 
-                : balance.outflow = amount[i].amount 
+        for(let i=0; i<arrayBalance.length; i++){
+            arrayBalance[i]._id == EnumTransactionTypes.TRANSACTION_ENTRY
+                ? balance.inflow = arrayBalance[i].amount 
+                : balance.outflow = arrayBalance[i].amount 
         }
 
         balance.total = balance.inflow - balance.outflow;
@@ -58,7 +58,10 @@ async function getBalanceByCpf(cpf) {
 
 async function deleteAllStatementsByCpf(cpf) {
     try{
-        const deletedAccount = await StatementModel.deleteMany( { cpf: cpf } );
+        const deletedAccount = await StatementModel.deleteMany( { accountCpf: cpf } );
+
+        if(deletedAccount.acknowledged) return `${deletedAccount.deletedCount} deleted statements.`
+
         return deletedAccount;
     }catch(e) {
         return e;

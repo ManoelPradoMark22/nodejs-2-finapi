@@ -31,4 +31,4 @@ function validateBodyPUTaccount(req, res, next) {
   returnValidate(schema, req, res, next);
 };
 
-module.exports = { validateBodyPOSTaccount, validateBodyPUTaccount}
+module.exports = { validateBodyPOSTaccount, validateBodyPUTaccount }
