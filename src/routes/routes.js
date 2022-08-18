@@ -23,4 +23,6 @@ router.get("/statement", (req, res) => StatementController.listStatementsByCpf(r
 router.delete("/statement", (req, res) => StatementController.deleteAllStatementsByCpf(req, res));
 router.post("/statement", validateBodyStatement, (req, res) => StatementController.createStatement(req, res));
 
+router.get("/balance", (req, res) => StatementController.getBalanceByCpf(req, res));
+
 module.exports = router;

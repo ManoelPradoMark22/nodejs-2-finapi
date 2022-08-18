@@ -20,6 +20,13 @@ async function listStatementsByCpf(req, res) {
     return res.json(statements);
 }
 
+async function getBalanceByCpf(req, res) {
+    const { cpf } = req.headers;
+
+    const balance = await StatementService.getBalanceByCpf(cpf);
+    return res.json(balance);
+}
+
 async function deleteAllStatementsByCpf(req, res) {
     const { cpf } = req.headers;
 
@@ -32,5 +39,6 @@ module.exports = {
     createStatement,
     listAllStatements,
     listStatementsByCpf,
+    getBalanceByCpf,
     deleteAllStatementsByCpf 
 }
