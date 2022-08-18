@@ -31,24 +31,24 @@ async function listStatementsByCpf(cpf) {
 
 async function getBalanceByCpf(cpf) {
     try{
-        const debits = await StatementModel.aggregate([
-            { $match: { type: EnumTransactionTypes.TRANSACTION_ENTRY, accountCpf: cpf } },
-            { $group: {_id: "$accountCpf", debits: {$sum: "$amount"}} }
+        const amount = await StatementModel.aggregate([
+            { $match: { accountCpf: cpf } },
+            { $group: {_id: "$type", amount: {$sum:  "$amount"}} },
         ]);
 
-        const credits = await StatementModel.aggregate([
-            { $match: { type: EnumTransactionTypes.TRANSACTION_OUT, accountCpf: cpf } },
-            { $group: {_id: "$accountCpf", credits: {$sum: "$amount"}} }
-        ]);
-
-        const valueDebits = debits.length>0 ? debits[0].debits : 0;
-        const valueCredits = credits.length>0 ? credits[0].credits : 0;
         const balance = {
-            cpf: cpf,
-            total: valueDebits-valueCredits,
-            debits: valueDebits,
-            credits: valueCredits
+            total: 0,
+            inflow: 0,
+            outflow: 0,
         }
+
+        for(let i=0; i<amount.length; i++){
+            amount[i]._id == EnumTransactionTypes.TRANSACTION_ENTRY
+                ? balance.inflow = amount[i].amount 
+                : balance.outflow = amount[i].amount 
+        }
+
+        balance.total = balance.inflow - balance.outflow;
 
         return balance;
     }catch(e) {
