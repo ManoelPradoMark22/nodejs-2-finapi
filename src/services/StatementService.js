@@ -1,8 +1,19 @@
 const StatementModel = require('../models/Statement');
+const AccountModel = require('../models/Account');
+const CategoryModel = require('../models/Category');
 const EnumTransactionTypes = require('../support/enum/EnumTransactionTypes');
+const EnumErrors = require('../support/enum/EnumErrors');
 
 async function createStatement(body, cpf) {
     try{
+        const { keyCategory } = body;
+
+        const existingCategory = await CategoryModel.findOne({ key: keyCategory });
+        if(!existingCategory) return {error: EnumErrors.CATEGORY_NOT_FOUND};
+
+        const existingAccount = await AccountModel.findOne({ cpf: cpf });
+        if(!existingAccount) return {error: EnumErrors.CUSTOMER_NOT_FOUND};
+
         const newObject = Object.assign({ accountCpf: cpf }, body);
         const statementCreated = await StatementModel.create(newObject);
         return statementCreated;

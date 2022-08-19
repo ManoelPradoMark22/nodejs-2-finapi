@@ -6,6 +6,10 @@ const StatementSchema = new mongoose.Schema(
       type: 'string',
       required: true
     },
+    keyCategory: {
+      type: 'string',
+      required: true
+    },
     description: {
       type: 'string',
       required: true

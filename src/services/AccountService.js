@@ -9,7 +9,7 @@ async function createAccount(body) {
     try{
         const existingAccount = await AccountModel.findOne({ cpf: cpf });
 
-        if(existingAccount) return {error: EnumErrors.ALREADY_EXISTS}
+        if(existingAccount) return {error: EnumErrors.CUSTOMER_ALREADY_EXISTS}
 
         const accountCreated = await AccountModel.create(body);
         return accountCreated;
@@ -26,7 +26,7 @@ async function updateAccount(body, cpf) {
             { returnOriginal: false },
         );
             
-        if(!accountUpdated) return {error: EnumErrors.NOT_FOUND};
+        if(!accountUpdated) return {error: EnumErrors.CUSTOMER_NOT_FOUND};
 
         return accountUpdated;
     }catch(e) {
@@ -47,7 +47,7 @@ async function getAccount(cpf) {
     try{
         const account = await AccountModel.findOne({ cpf: cpf });
 
-        if(!account) return {error: EnumErrors.NOT_FOUND}
+        if(!account) return {error: EnumErrors.CUSTOMER_NOT_FOUND}
 
         return account;
     }catch(e) {

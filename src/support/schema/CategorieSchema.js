@@ -1,14 +1,13 @@
 const Joi = require('joi');
 const EnumJoi = require('../enum/EnumJoi');
 
-module.exports = function validateBodyStatement(req, res, next) {
+module.exports = function validateBodyCategorie(req, res, next) {
   const dataBody = req.body;
 
   const schema = Joi.object().keys({
-    description: EnumJoi.STATEMENT_DESCRIPTION.required(),
-    keyCategory: EnumJoi.CATEGORY_KEY_JOY.required(),
-    amount: EnumJoi.STATEMENT_AMOUNT.required(),
-    type: EnumJoi.STATEMENT_TYPE.required()
+    key: EnumJoi.CATEGORY_KEY_JOY.required(),
+    name: EnumJoi.CATEGORY_NAME_JOY.required(),
+    icon: EnumJoi.CATEGORY_NAME_JOY.required(),
   });
 
   const validate = schema.validate(dataBody);
