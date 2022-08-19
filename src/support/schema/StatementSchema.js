@@ -1,9 +1,8 @@
 const Joi = require('joi');
 const EnumJoi = require('../enum/EnumJoi');
+const ReturnValidate = require('../util/ReturnValidate');
 
-module.exports = function validateBodyStatement(req, res, next) {
-  const dataBody = req.body;
-
+function validateBodyStatement(req, res, next) {
   const schema = Joi.object().keys({
     description: EnumJoi.STATEMENT_DESCRIPTION.required(),
     keyCategory: EnumJoi.CATEGORY_KEY_JOY.required(),
@@ -11,14 +10,7 @@ module.exports = function validateBodyStatement(req, res, next) {
     type: EnumJoi.STATEMENT_TYPE.required()
   });
 
-  const validate = schema.validate(dataBody);
-
-  if(validate.error) return res.status(422).json({
-    status: 'error',
-    message: validate.error.message
-  });
-
-  req.body = validate.value;
-
-  return next();
+  ReturnValidate.bodyValidate(schema, req, res, next);
 };
+
+module.exports = { validateBodyStatement }

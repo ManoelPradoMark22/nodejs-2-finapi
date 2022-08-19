@@ -1,2 +1,9 @@
-const target = '      ';
-console.log(target.trim());
+const target = { "id": "1", "name": "mango", "color": "yellow"};
+console.log(JSON.stringify(Object.entries(target)));
+
+
+const target2 = { id: "1"};
+const keyValue = Object.entries(target2)
+console.log(keyValue);
+console.log(keyValue[0][0])
+console.log(keyValue[0][1])

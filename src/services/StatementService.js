@@ -2,23 +2,23 @@ const StatementModel = require('../models/Statement');
 const AccountModel = require('../models/Account');
 const CategoryModel = require('../models/Category');
 const EnumTransactionTypes = require('../support/enum/EnumTransactionTypes');
-const EnumErrors = require('../support/enum/EnumErrors');
+const EnumMessages = require('../support/enum/EnumMessages');
 
 async function createStatement(body, cpf) {
     try{
         const { keyCategory } = body;
 
         const existingCategory = await CategoryModel.findOne({ key: keyCategory });
-        if(!existingCategory) return {error: EnumErrors.CATEGORY_NOT_FOUND};
+        if(!existingCategory) return {error: EnumMessages.CATEGORY_NOT_FOUND};
 
         const existingAccount = await AccountModel.findOne({ cpf: cpf });
-        if(!existingAccount) return {error: EnumErrors.CUSTOMER_NOT_FOUND};
+        if(!existingAccount) return {error: EnumMessages.ACCOUNT_NOT_FOUND};
 
         const newObject = Object.assign({ accountCpf: cpf }, body);
         const statementCreated = await StatementModel.create(newObject);
         return statementCreated;
     }catch(e) {
-        return e;
+        return e.message;
     }
 }
 
@@ -27,7 +27,7 @@ async function listAllStatements() {
         const allStatements = await StatementModel.find();
         return allStatements;
     }catch(e) {
-        return e;
+        return e.message;
     }    
 }
 
@@ -36,7 +36,7 @@ async function listStatementsByCpf(cpf) {
         const statements = await StatementModel.find({ accountCpf: cpf });
         return statements;
     }catch(e) {
-        return e;
+        return e.message;
     }
 }
 
@@ -63,7 +63,7 @@ async function getBalanceByCpf(cpf) {
 
         return balance;
     }catch(e) {
-        return e;
+        return e.message;
     }
 }
 
@@ -71,11 +71,13 @@ async function deleteAllStatementsByCpf(cpf) {
     try{
         const deletedAccount = await StatementModel.deleteMany( { accountCpf: cpf } );
 
-        if(deletedAccount.acknowledged) return `${deletedAccount.deletedCount} deleted statements.`
+        const { acknowledged, deletedCount } = deletedAccount;
 
-        return deletedAccount;
+        if(acknowledged) return `${deletedCount} ${EnumMessages.N_STATEMENTS_DELETED}`;
+
+        return EnumMessages.STATEMENTS_NOT_FOUND;
     }catch(e) {
-        return e;
+        return e.message;
     }    
 }
 

@@ -1,25 +1,35 @@
 const CategoryModel = require('../models/Category');
-const EnumErrors = require('../support/enum/EnumErrors');
+const EnumMessages = require('../support/enum/EnumMessages');
 
 async function createCategory(body) {
-    const { key, name } = body;
-
     try{
-        const existingCategorie = await CategoryModel.findOne(
-            {
-                $or: [
-                    { key: key },
-                    { name: name }
-                ]
-            }
-        );
-
-        if(existingCategorie) return { error: EnumErrors.CATEGORY_ALREADY_EXISTS };
-
         const categorieCreated = await CategoryModel.create(body);
         return categorieCreated;
     }catch(e) {
-        return e;
+        const { keyValue } = e;
+        if(keyValue) {
+            const keyArray = Object.keys(keyValue);
+            const key = keyArray[0];
+            return `Already exists an account with ${key}=${body[key]}`
+        };
+
+        return e.message;
+    }
+}
+
+async function updateCategory(body, key) {
+    try{
+        const categoryUpdated = await CategoryModel.findOneAndUpdate(
+            { key: key },
+            body,
+            { returnOriginal: false },
+        );
+            
+        if(!categoryUpdated) return {error: EnumMessages.CATEGORY_NOT_FOUND};
+
+        return categoryUpdated;
+    }catch(e) {
+        return e.message;
     }
 }
 
@@ -28,8 +38,8 @@ async function listAllCategories() {
         const allCategories = await CategoryModel.find();
         return allCategories;
     }catch(e) {
-        return e;
+        return e.message;
     }    
 }
 
-module.exports = { createCategory, listAllCategories }
+module.exports = { createCategory, updateCategory, listAllCategories }

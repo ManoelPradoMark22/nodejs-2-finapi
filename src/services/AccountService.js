@@ -1,7 +1,6 @@
 const AccountModel = require('../models/Account');
-const StatementService = require('../services/StatementService');
-const EnumErrors = require('../support/enum/EnumErrors');
-const EnumSuccess = require('../support/enum/EnumSuccess');
+const StatementModel = require('../models/Statement');
+const EnumMessages = require('../support/enum/EnumMessages');
 
 async function createAccount(body) {
     const { cpf } = body;
@@ -9,12 +8,12 @@ async function createAccount(body) {
     try{
         const existingAccount = await AccountModel.findOne({ cpf: cpf });
 
-        if(existingAccount) return {error: EnumErrors.CUSTOMER_ALREADY_EXISTS}
+        if(existingAccount) return {error: EnumMessages.ACCOUNT_ALREADY_EXISTS}
 
         const accountCreated = await AccountModel.create(body);
         return accountCreated;
     }catch(e) {
-        return e;
+        return e.message;
     }
 }
 
@@ -26,11 +25,11 @@ async function updateAccount(body, cpf) {
             { returnOriginal: false },
         );
             
-        if(!accountUpdated) return {error: EnumErrors.CUSTOMER_NOT_FOUND};
+        if(!accountUpdated) return {error: EnumMessages.ACCOUNT_NOT_FOUND};
 
         return accountUpdated;
     }catch(e) {
-        return e;
+        return e.message;
     }
 }
 
@@ -39,7 +38,7 @@ async function listAllAccounts() {
         const allAccounts = await AccountModel.find();
         return allAccounts;
     }catch(e) {
-        return e;
+        return e.message;
     }    
 }
 
@@ -47,24 +46,32 @@ async function getAccount(cpf) {
     try{
         const account = await AccountModel.findOne({ cpf: cpf });
 
-        if(!account) return {error: EnumErrors.CUSTOMER_NOT_FOUND}
+        if(!account) return {error: EnumMessages.ACCOUNT_NOT_FOUND}
 
         return account;
     }catch(e) {
-        return e;
+        return e.message;
     }    
 }
 
 async function deleteAccount(cpf) {
     try{
-        const deletedAccount = await AccountModel.deleteOne( { cpf: cpf } );
-        console.log(deletedAccount);
-        await StatementService.deleteAllStatementsByCpf(cpf);
-        if(deletedAccount.acknowledged && (deletedAccount.deletedCount>0)) return EnumSuccess.SUCCESS_DELETE;
+        const deletedAccount = await AccountModel.findOneAndDelete({ cpf: cpf });
+        if(deletedAccount) {
+            const existingStatement = await StatementModel.findOne({ accountCpf: cpf });
 
-        return deletedAccount;  
+            if(existingStatement) {
+                const deletedAccount = await StatementModel.deleteMany( { accountCpf: cpf } );
+                const { acknowledged } = deletedAccount;
+                if(!acknowledged) return EnumMessages.JUST_ACCOUNT_DELETED;
+            }
+
+            return EnumMessages.SUCCESS_FULL_DELETE;
+        }
+
+        return EnumMessages.ACCOUNT_NOT_FOUND;  
     }catch(e) {
-        return e;
+        return e.message;
     }    
 }
 

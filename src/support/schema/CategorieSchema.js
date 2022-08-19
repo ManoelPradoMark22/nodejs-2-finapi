@@ -1,8 +1,8 @@
 const Joi = require('joi');
 const EnumJoi = require('../enum/EnumJoi');
 
-module.exports = function validateBodyCategorie(req, res, next) {
-  const dataBody = req.body;
+function validateBodyPOSTCategory(req, res, next) {
+  const { body } = req;
 
   const schema = Joi.object().keys({
     key: EnumJoi.CATEGORY_KEY_JOY.required(),
@@ -10,7 +10,7 @@ module.exports = function validateBodyCategorie(req, res, next) {
     icon: EnumJoi.CATEGORY_NAME_JOY.required(),
   });
 
-  const validate = schema.validate(dataBody);
+  const validate = schema.validate(body);
 
   if(validate.error) return res.status(422).json({
     status: 'error',
@@ -21,3 +21,25 @@ module.exports = function validateBodyCategorie(req, res, next) {
 
   return next();
 };
+
+function validateBodyPUTCategory(req, res, next) {
+  const { body } = req;
+
+  const schema = Joi.object().keys({
+    name: EnumJoi.CATEGORY_NAME_JOY,
+    icon: EnumJoi.CATEGORY_NAME_JOY,
+  }).min(1);
+
+  const validate = schema.validate(body);
+
+  if(validate.error) return res.status(422).json({
+    status: 'error',
+    message: validate.error.message
+  });
+
+  req.body = validate.value;
+
+  return next();
+};
+
+module.exports = { validateBodyPOSTCategory, validateBodyPUTCategory }
