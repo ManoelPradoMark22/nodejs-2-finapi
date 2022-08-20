@@ -24,7 +24,7 @@ async function updateAccount(body, cpf) {
 
         return accountUpdated;
     }catch(e) {
-        return ManageError.keyValueError(e, body, 'a category');
+        return ManageError.keyValueError(e, body, 'an account');
     }
 }
 

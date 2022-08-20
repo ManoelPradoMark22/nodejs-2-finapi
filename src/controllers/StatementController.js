@@ -27,6 +27,13 @@ async function getBalanceByCpf(req, res) {
     return res.json(balance);
 }
 
+async function getCategoryBalanceByCpf(req, res) {
+    const { cpf } = req.headers;
+
+    const balance = await StatementService.getCategoryBalanceByCpf(cpf);
+    return res.json(balance);
+}
+
 async function deleteAllStatementsByCpf(req, res) {
     const { cpf } = req.headers;
 
@@ -40,5 +47,6 @@ module.exports = {
     listAllStatements,
     listStatementsByCpf,
     getBalanceByCpf,
+    getCategoryBalanceByCpf,
     deleteAllStatementsByCpf 
 }

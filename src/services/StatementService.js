@@ -67,6 +67,39 @@ async function getBalanceByCpf(cpf) {
     }
 }
 
+async function getCategoryBalanceByCpf(cpf) {
+    try{
+        const arrayBalance = await StatementModel.aggregate([
+            { $match: { accountCpf: cpf } },
+            { $group: {
+                _id: {keyCategory: "$keyCategory", type: "$type"},
+                amount: {$sum:  "$amount"}
+            } 
+            },
+        ]);
+
+        const objBalance = {
+            inflow: [],
+            outflow: []
+        }
+
+        for(let i=0; i<arrayBalance.length; i++){
+            const { _id: obj, amount } = arrayBalance[i];
+            const { type, keyCategory } = obj;
+            objBalance[
+                type == EnumTransactionTypes.TRANSACTION_ENTRY ? 'inflow' : 'outflow'
+            ].push({
+                keyCategory: keyCategory,
+                amount: amount
+            })
+        }
+
+        return objBalance;
+    }catch(e) {
+        return e.message;
+    }
+}
+
 async function deleteAllStatementsByCpf(cpf) {
     try{
         const deletedAccount = await StatementModel.deleteMany( { accountCpf: cpf } );
@@ -86,5 +119,6 @@ module.exports = {
     listAllStatements,
     listStatementsByCpf,
     getBalanceByCpf,
+    getCategoryBalanceByCpf,
     deleteAllStatementsByCpf
 }
