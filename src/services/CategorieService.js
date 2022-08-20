@@ -1,19 +1,13 @@
 const CategoryModel = require('../models/Category');
 const EnumMessages = require('../support/enum/EnumMessages');
+const ManageError = require('../support/util/ManageError');
 
 async function createCategory(body) {
     try{
         const categorieCreated = await CategoryModel.create(body);
         return categorieCreated;
     }catch(e) {
-        const { keyValue } = e;
-        if(keyValue) {
-            const keyArray = Object.keys(keyValue);
-            const key = keyArray[0];
-            return `Already exists an account with ${key}=${body[key]}`
-        };
-
-        return e.message;
+        return ManageError.keyValueError(e, body, 'an category');
     }
 }
 
@@ -29,7 +23,7 @@ async function updateCategory(body, key) {
 
         return categoryUpdated;
     }catch(e) {
-        return e.message;
+        return ManageError.keyValueError(e, body, 'an category');
     }
 }
 
