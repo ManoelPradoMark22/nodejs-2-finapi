@@ -1,7 +1,5 @@
 const Enum = require('./Enum');
 
-//enumMessages
-
 module.exports = Enum({
 
   ACCOUNT_ALREADY_EXISTS: "Account already exists!",
