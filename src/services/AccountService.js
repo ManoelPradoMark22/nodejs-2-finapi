@@ -1,19 +1,14 @@
 const AccountModel = require('../models/Account');
 const StatementModel = require('../models/Statement');
 const EnumMessages = require('../support/enum/EnumMessages');
+const ManageError = require('../support/util/ManageError');
 
 async function createAccount(body) {
-    const { cpf } = body;
-
     try{
-        const existingAccount = await AccountModel.findOne({ cpf: cpf });
-
-        if(existingAccount) return {error: EnumMessages.ACCOUNT_ALREADY_EXISTS}
-
         const accountCreated = await AccountModel.create(body);
         return accountCreated;
     }catch(e) {
-        return e.message;
+        return ManageError.keyValueError(e, body, 'an account');
     }
 }
 
@@ -29,7 +24,7 @@ async function updateAccount(body, cpf) {
 
         return accountUpdated;
     }catch(e) {
-        return e.message;
+        return ManageError.keyValueError(e, body, 'a category');
     }
 }
 

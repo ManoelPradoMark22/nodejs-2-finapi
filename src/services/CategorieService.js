@@ -7,7 +7,7 @@ async function createCategory(body) {
         const categorieCreated = await CategoryModel.create(body);
         return categorieCreated;
     }catch(e) {
-        return ManageError.keyValueError(e, body, 'an category');
+        return ManageError.keyValueError(e, body, 'a category');
     }
 }
 
@@ -23,7 +23,7 @@ async function updateCategory(body, key) {
 
         return categoryUpdated;
     }catch(e) {
-        return ManageError.keyValueError(e, body, 'an category');
+        return ManageError.keyValueError(e, body, 'a category');
     }
 }
 
