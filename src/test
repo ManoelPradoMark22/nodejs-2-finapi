@@ -1,5 +1,5 @@
-const target = { "id": "1", "name": "mango", "color": "yellow"};
-console.log(JSON.stringify(Object.entries(target)));
+const target = { id: "1", name: "mango", color: "yellow"};
+console.log(Object.entries(target));
 
 
 const target2 = { id: "1"};
@@ -13,3 +13,10 @@ const arr = [1, 2, 3]
 arr.push(4);
 
 console.log(arr);
+
+const teste = {};
+(
+  teste
+  && Object.keys(teste).length !== 0
+  && Object.getPrototypeOf(teste) === Object.prototype
+) ? console.log(true) : console.log(false);

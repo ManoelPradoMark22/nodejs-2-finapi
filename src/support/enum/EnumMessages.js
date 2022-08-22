@@ -3,6 +3,7 @@ const Enum = require('./Enum');
 module.exports = Enum({
 
   ACCOUNT_ALREADY_EXISTS: "Account already exists!",
+  ACCOUNT_ALREADY_EXISTS_WITH: "Already exists an account with:",
   CATEGORY_ALREADY_EXISTS: "Category already exists!",
   CATEGORY_NAME_ALREADY_EXISTS: "Category name already exists!",
   

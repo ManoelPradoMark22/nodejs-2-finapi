@@ -4,6 +4,7 @@ async function createAccount(req, res) {
     const dataBody = req.body;
 
     const accountCreated = await AccountService.createAccount(dataBody);
+    
     return res.json(accountCreated);
 }
 

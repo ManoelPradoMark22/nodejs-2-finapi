@@ -5,26 +5,99 @@ const ManageError = require('../support/util/ManageError');
 
 async function createAccount(body) {
     try{
+        const { firstName, lastName, ...onlyRequiredFields } = body;
+        const searchObject = [];
+        for (const key in onlyRequiredFields) {
+            searchObject.push({[key]: onlyRequiredFields[key]})
+        }
+        const existingAccount = await AccountModel.findOne({
+            $or: [
+                ...searchObject
+            ]
+        });
+        
+        if(existingAccount){
+            returnString = [];
+            for (const key in onlyRequiredFields) {
+                if(onlyRequiredFields[key] == existingAccount[key]) {
+                    returnString.push(`${key}=${existingAccount[key]}`);
+                }
+            }
+            return `${EnumMessages.ACCOUNT_ALREADY_EXISTS_WITH} ${returnString.join(',')}`;
+        }
+
         const accountCreated = await AccountModel.create(body);
+
         return accountCreated;
     }catch(e) {
-        return ManageError.keyValueError(e, body, 'an account');
+        return e;
     }
 }
 
 async function updateAccount(body, cpf) {
     try{
-        const accountUpdated = await AccountModel.findOneAndUpdate(
+        const existingAccount = await AccountModel.findOne({ cpf: cpf });
+        if(!existingAccount) return EnumMessages.ACCOUNT_NOT_FOUND;
+
+        const { firstName, lastName, ...onlyRequiredFields } = body;
+
+        if(onlyRequiredFields && Object.keys(onlyRequiredFields).length !== 0
+            && Object.getPrototypeOf(onlyRequiredFields) === Object.prototype
+        ) {
+
+            const searchObject = [];
+            for (const key in onlyRequiredFields) {
+                searchObject.push({[key]: onlyRequiredFields[key]})
+            }
+    
+            const similarAccount = await AccountModel.findOne({
+                $or: [
+                    ...searchObject
+                ],
+                $nor: [
+                    { cpf: cpf }
+                ]
+            });
+        
+            if(similarAccount){
+                returnString = [];
+                for (const key in onlyRequiredFields) {
+                    if(onlyRequiredFields[key] == similarAccount[key]) {
+                        returnString.push(`${key}=${similarAccount[key]}`);
+                    }
+                }
+                return `${EnumMessages.ACCOUNT_ALREADY_EXISTS_WITH} ${returnString.join(',')}`;
+            }
+
+        }
+
+        const accountUdated = await AccountModel.findOneAndUpdate(
             { cpf: cpf },
             body,
             { returnOriginal: false },
         );
-            
-        if(!accountUpdated) return {error: EnumMessages.ACCOUNT_NOT_FOUND};
 
-        return accountUpdated;
+        /* poderia ser:
+        const accountUdated = await AccountModel.updateOne(
+            existingAccount,
+            body,
+            { returnOriginal: false },
+        ); //pois ja temos o documento original existingAccount
+
+        e o retorno seria:
+        {
+            "acknowledged": true,
+            "modifiedCount": 1,
+            "upsertedId": null,
+            "upsertedCount": 0,
+            "matchedCount": 1
+        }
+        ao inves do documento atualizado
+        */
+
+        return accountUdated;
     }catch(e) {
-        return ManageError.keyValueError(e, body, 'an account');
+        return e;
     }
 }
 
