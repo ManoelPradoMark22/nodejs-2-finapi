@@ -8,6 +8,8 @@ const StatementSchema  = require('../support/schema/StatementSchema');
 const CategorieSchema  = require('../support/schema/CategorieSchema');
 const HeaderSchema  = require('../support/schema/HeaderSchema');
 
+router.get('/', (req, res) => res.send('Hello World'));//learning tests
+
 router.post("/account", AccountSchema.validateBodyPOSTaccount, (req, res) => AccountController.createAccount(req, res));
 router.get("/all-accounts", (req, res) => AccountController.listAllAccounts(req, res));
 router.get("/all-statements", (req, res) => StatementController.listAllStatements(req, res));
