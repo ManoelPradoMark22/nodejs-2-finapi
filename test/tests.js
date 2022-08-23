@@ -19,6 +19,20 @@ describe('Account', function() {
                 })
         });
     });
+
+    describe ('GET /account', function() {
+        it('it should GET an account by a valid Id', (done) => {
+            const cpf = '06350390520';
+            chai.request(server)
+                .get("/account")
+                .set('cpf', cpf)
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('object');
+                    done();
+                })
+        });
+    });
 });
 
 describe('Category', function() {
