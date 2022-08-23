@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 describe('Account', function() {
     describe ('GET /all-accounts', function() {
-        it('it should GET all accounts', (done) => {
+        it('it should GET all accounts (200)', (done) => {
             chai.request(server)
                 .get("/all-accounts")
                 .end((err, response) => {
@@ -21,7 +21,7 @@ describe('Account', function() {
     });
 
     describe ('GET /account', function() {
-        it('it should GET an account by a valid cpf', (done) => {
+        it('it should GET an account by a valid cpf (200)', (done) => {
             const cpf = '06350390520';
             chai.request(server)
                 .get("/account")
@@ -33,7 +33,7 @@ describe('Account', function() {
                 })
         });
 
-        it('it should get an error object when account is not found', (done) => {
+        it('it should get an error object when account is not found (422)', (done) => {
             const cpf = '18925985071';
             chai.request(server)
                 .get("/account")
@@ -45,7 +45,7 @@ describe('Account', function() {
                 })
         });
 
-        it('it should get a validation object when cpf is invalid - JOI', (done) => {
+        it('it should get a validation object when cpf is invalid - JOI (422)', (done) => {
             const cpf = '06350390521';
             chai.request(server)
                 .get("/account")
@@ -57,7 +57,7 @@ describe('Account', function() {
                 })
         });
 
-        it('it should get a validation object when cpf is missing - JOI', (done) => {
+        it('it should get a validation object when cpf is missing - JOI (422)', (done) => {
             chai.request(server)
                 .get("/account")
                 .end((err, response) => {
