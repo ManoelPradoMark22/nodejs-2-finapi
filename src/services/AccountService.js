@@ -42,6 +42,8 @@ async function getAccount(cpf) {
     try{
         const account = await AccountModel.findOne({ cpf: cpf });
 
+        if(!account) throw new UsefulError('NotFoundError', 404, EnumMessages.ACCOUNT_NOT_FOUND);
+
         return account;
     }catch(e) {
         throw e;

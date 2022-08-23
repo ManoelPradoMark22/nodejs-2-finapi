@@ -33,13 +33,13 @@ describe('Account', function() {
                 })
         });
 
-        it('it should get an error object when account is not found (422)', (done) => {
+        it('it should get an error object when account is not found (404)', (done) => {
             const cpf = '18925985071';
             chai.request(server)
                 .get("/account")
                 .set('cpf', cpf)
                 .end((err, response) => {
-                    response.should.have.status(422);
+                    response.should.have.status(404);
                     response.body.should.be.a('object');
                     done();
                 })
@@ -62,6 +62,27 @@ describe('Account', function() {
                 .get("/account")
                 .end((err, response) => {
                     response.should.have.status(422);
+                    response.body.should.be.a('object');
+                    done();
+                })
+        });
+    });
+
+    describe ('POST /account', function() {
+        const account = {
+            firstName: "Bruna",
+            lastName: "Silva",
+            cpf: "97728322087",
+            email: "brunasilva@gmail.com",
+            cellphone: "77991998771"
+        }
+
+        it('it should get a validation object when trying post an account with unique key duplicated (406)', (done) => {
+            chai.request(server)
+                .post("/account")
+                .send(account)
+                .end((err, response) => {
+                    response.should.have.status(406);
                     response.body.should.be.a('object');
                     done();
                 })
