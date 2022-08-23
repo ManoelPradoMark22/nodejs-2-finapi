@@ -1,6 +1,7 @@
 const chai  = require('chai');
 const chaiHttp  = require('chai-http');
 const server  = require('../src/index');
+const RandomGenerate  = require('../src/support/util/RandomGenerate');
 
 //assertion style
 chai.should();
@@ -69,20 +70,60 @@ describe('Account', function() {
     });
 
     describe ('POST /account', function() {
-        const account = {
-            firstName: "Bruna",
-            lastName: "Silva",
-            cpf: "97728322087",
-            email: "brunasilva@gmail.com",
-            cellphone: "77991998771"
-        }
+        it('it should POST an account (200)', (done) => {           
+            const account = {
+                firstName: RandomGenerate.name(),
+                lastName: RandomGenerate.name(),
+                cpf: RandomGenerate.cpf(),
+                email: `${RandomGenerate.name()}@gmail.com`,
+                cellphone: RandomGenerate.cellphone()
+            }
+            chai.request(server)
+                .post("/account")
+                .send(account)
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('object');
+                    done();
+                })
+        });
 
-        it('it should get a validation object when trying post an account with unique key duplicated (406)', (done) => {
+        it('it should get an error object when trying POST an account with unique key duplicated (406)', (done) => {
+            const account = {
+                firstName: "Bruna",
+                lastName: "Silva",
+                cpf: "97728322087",
+                email: "brunasilva@gmail.com",
+                cellphone: "77991998771"
+            }
             chai.request(server)
                 .post("/account")
                 .send(account)
                 .end((err, response) => {
                     response.should.have.status(406);
+                    response.body.should.be.a('object');
+                    done();
+                })
+        });
+    });
+
+    describe ('PUT /account', function() {
+        const account = {
+            firstName: "Bruna",
+            lastName: "Silva",
+            email: "brunasilva@gmail.com",
+            cellphone: "77991998771"
+        }
+
+        const cpf = '18925985071';
+
+        it('it should get an error object when account is not found (404)', (done) => {
+            chai.request(server)
+                .put("/account")
+                .set('cpf', cpf)
+                .send(account)
+                .end((err, response) => {
+                    response.should.have.status(404);
                     response.body.should.be.a('object');
                     done();
                 })
