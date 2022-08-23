@@ -21,13 +21,47 @@ describe('Account', function() {
     });
 
     describe ('GET /account', function() {
-        it('it should GET an account by a valid Id', (done) => {
+        it('it should GET an account by a valid cpf', (done) => {
             const cpf = '06350390520';
             chai.request(server)
                 .get("/account")
                 .set('cpf', cpf)
                 .end((err, response) => {
                     response.should.have.status(200);
+                    response.body.should.be.a('object');
+                    done();
+                })
+        });
+
+        it('it should get an error object when account is not found', (done) => {
+            const cpf = '18925985071';
+            chai.request(server)
+                .get("/account")
+                .set('cpf', cpf)
+                .end((err, response) => {
+                    response.should.have.status(422);
+                    response.body.should.be.a('object');
+                    done();
+                })
+        });
+
+        it('it should get a validation object when cpf is invalid - JOI', (done) => {
+            const cpf = '06350390521';
+            chai.request(server)
+                .get("/account")
+                .set('cpf', cpf)
+                .end((err, response) => {
+                    response.should.have.status(422);
+                    response.body.should.be.a('object');
+                    done();
+                })
+        });
+
+        it('it should get a validation object when cpf is missing - JOI', (done) => {
+            chai.request(server)
+                .get("/account")
+                .end((err, response) => {
+                    response.should.have.status(422);
                     response.body.should.be.a('object');
                     done();
                 })
