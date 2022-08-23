@@ -8,6 +8,10 @@ chai.should();
 
 chai.use(chaiHttp);
 
+const VALID_AND_EXISTING_ACCOUNT_CPF = '84293271007';
+const VALID_AND_NON_EXISTENT_ACCOUNT_CPF = '18925985071';
+const INVALID_CPF = '02303950521';
+
 describe('Account', function() {
     describe ('GET /all-accounts', function() {
         it('it should GET all accounts (200)', (done) => {
@@ -23,10 +27,9 @@ describe('Account', function() {
 
     describe ('GET /account', function() {
         it('it should GET an account by a valid cpf (200)', (done) => {
-            const cpf = '06350390520';
             chai.request(server)
                 .get("/account")
-                .set('cpf', cpf)
+                .set('cpf', VALID_AND_EXISTING_ACCOUNT_CPF)
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('object');
@@ -35,10 +38,9 @@ describe('Account', function() {
         });
 
         it('it should get an error object when account is not found (404)', (done) => {
-            const cpf = '18925985071';
             chai.request(server)
                 .get("/account")
-                .set('cpf', cpf)
+                .set('cpf', VALID_AND_NON_EXISTENT_ACCOUNT_CPF)
                 .end((err, response) => {
                     response.should.have.status(404);
                     response.body.should.be.a('object');
@@ -47,10 +49,9 @@ describe('Account', function() {
         });
 
         it('it should get a validation object when cpf is invalid - JOI (422)', (done) => {
-            const cpf = '06350390521';
             chai.request(server)
                 .get("/account")
-                .set('cpf', cpf)
+                .set('cpf', INVALID_CPF)
                 .end((err, response) => {
                     response.should.have.status(422);
                     response.body.should.be.a('object');
@@ -75,7 +76,7 @@ describe('Account', function() {
                 firstName: RandomGenerate.name(),
                 lastName: RandomGenerate.name(),
                 cpf: RandomGenerate.cpf(),
-                email: `${RandomGenerate.name()}@gmail.com`,
+                email: RandomGenerate.email(),
                 cellphone: RandomGenerate.cellphone()
             }
             chai.request(server)
@@ -108,19 +109,36 @@ describe('Account', function() {
     });
 
     describe ('PUT /account', function() {
-        const account = {
-            firstName: "Bruna",
-            lastName: "Silva",
-            email: "brunasilva@gmail.com",
-            cellphone: "77991998771"
-        }
+        it('it should PUT an account (200)', (done) => {
+            const account = {
+                firstName: RandomGenerate.name(),
+                lastName: RandomGenerate.name(),
+                email: RandomGenerate.email(),
+                cellphone: RandomGenerate.cellphone()
+            }
 
-        const cpf = '18925985071';
-
-        it('it should get an error object when account is not found (404)', (done) => {
             chai.request(server)
                 .put("/account")
-                .set('cpf', cpf)
+                .set('cpf', VALID_AND_EXISTING_ACCOUNT_CPF)
+                .send(account)
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('object');
+                    done();
+                })
+        });
+
+        it('it should get an error object when account is not found (404)', (done) => {
+            const account = {
+                firstName: "Bruna",
+                lastName: "Silva",
+                email: "brunasilva@gmail.com",
+                cellphone: "77991998771"
+            }
+
+            chai.request(server)
+                .put("/account")
+                .set('cpf', VALID_AND_NON_EXISTENT_ACCOUNT_CPF)
                 .send(account)
                 .end((err, response) => {
                     response.should.have.status(404);

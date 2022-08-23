@@ -13,3 +13,12 @@ const arr = [1, 2, 3]
 arr.push(4);
 
 console.log(arr);
+
+
+const sufix = ['@gmail.com', '@hotmail.com', '@outlook.com', '@accenture.com', '@yahoo.com'];
+console.log(sufix);
+const indexSufix = Math.floor(Math.random() * sufix.length);
+console.log(indexSufix);
+const email = `dasdasd${sufix[indexSufix]}`;
+
+console.log(email);

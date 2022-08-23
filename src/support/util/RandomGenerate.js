@@ -29,6 +29,15 @@ function name() {
   return text;
 }
 
+function email() {
+  const sufix = ['@gmail.com', '@hotmail.com', '@outlook.com', '@accenture.com', '@yahoo.com'];
+  const indexSufix = Math.floor(Math.random() * sufix.length);
+  
+  const email = `${name()}${sufix[indexSufix]}`;
+
+  return email;
+}
+
 function cellphone() {
   let cellphone = '';
   for(let i=0; i<11; i++){
@@ -37,4 +46,4 @@ function cellphone() {
   return cellphone;
 }
 
-module.exports = { cpf, name, cellphone }
+module.exports = { cpf, name, email, cellphone }
