@@ -50,6 +50,8 @@ describe('Account', function() {
                     response.should.have.status(406);
                     response.body.should.be.a('object');
                     response.body.should.includes.all.keys(['name', 'httpStatusCode', 'context', 'duplicatedFields']);
+                    response.body.duplicatedFields.should.be.a('object');
+                    response.body.duplicatedFields.should.not.be.empty;
                     done();
                 })
         });
