@@ -134,6 +134,25 @@ describe('Account', function() {
                 })
         });
 
+        it('it should get an error object when trying PUT an account with unique key duplicated (406)', (done) => {
+            const account = {
+                firstName: "Bruna",
+                lastName: "Silva",
+                email: "brunasilva@gmail.com",
+                cellphone: "77991998771"
+            }
+            chai.request(server)
+                .put("/account")
+                .set('cpf', VALID_AND_EXISTING_ACCOUNT_CPF)
+                .send(account)
+                .end((err, response) => {
+                    response.should.have.status(406);
+                    response.body.should.be.a('object');
+                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
+                    done();
+                })
+        });
+
         it('it should get an error object when account is not found (404)', (done) => {
             const account = {
                 firstName: "Bruna",
