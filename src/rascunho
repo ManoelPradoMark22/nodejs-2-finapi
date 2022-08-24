@@ -35,3 +35,9 @@ console.log(indexSufix);
 const email = `dasdasd${sufix[indexSufix]}`;
 
 console.log(email);
+
+const Account = require('./models/Account');
+//const keysModel = Object.keys(Account.schema.eachPath(e => e));
+//console.log(keysModel);
+
+Account.schema.eachPath(e => console.log(e))

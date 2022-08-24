@@ -28,13 +28,22 @@ describe('Account', function() {
     });
 
     describe ('GET /account', function() {
+        const cpf = VALID_AND_EXISTING_ACCOUNT_CPF;
         it('it should GET an account by a valid cpf (200)', (done) => {
             chai.request(server)
                 .get("/account")
-                .set('cpf', VALID_AND_EXISTING_ACCOUNT_CPF)
+                .set('cpf', cpf)
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('object');
+                    response.body.should.includes.all.keys([
+                        'cpf',
+                        'email',
+                        'cellphone',
+                        'firstName',
+                        'lastName',
+                    ]);
+                    response.body.should.have.property('cpf').eql(cpf);
                     done();
                 })
         });
