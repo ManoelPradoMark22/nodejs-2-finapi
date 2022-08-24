@@ -44,6 +44,7 @@ describe('Account', function() {
                 .end((err, response) => {
                     response.should.have.status(404);
                     response.body.should.be.a('object');
+                    response.body.should.includes.all.keys(['name', 'httpStatusCode', 'context']);
                     done();
                 })
         });
@@ -103,6 +104,7 @@ describe('Account', function() {
                 .end((err, response) => {
                     response.should.have.status(406);
                     response.body.should.be.a('object');
+                    response.body.should.includes.all.keys(['name', 'httpStatusCode', 'context']);
                     done();
                 })
         });
@@ -143,6 +145,7 @@ describe('Account', function() {
                 .end((err, response) => {
                     response.should.have.status(404);
                     response.body.should.be.a('object');
+                    response.body.should.includes.all.keys(['name', 'httpStatusCode', 'context']);
                     done();
                 })
         });
@@ -151,7 +154,7 @@ describe('Account', function() {
 
 describe('Category', function() {
     describe ('GET /categorie', function() {
-        it('it should GET all categories', (done) => {
+        it('it should GET all categories (200)', (done) => {
             chai.request(server)
                 .get("/categorie")
                 .end((err, response) => {
@@ -165,7 +168,7 @@ describe('Category', function() {
 
 describe('Statement', function() {
     describe ('GET /all-statements', function() {
-        it('it should GET all statements', (done) => {
+        it('it should GET all statements (200)', (done) => {
             chai.request(server)
                 .get("/all-statements")
                 .end((err, response) => {
