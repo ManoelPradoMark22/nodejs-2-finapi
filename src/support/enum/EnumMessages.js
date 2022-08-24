@@ -20,4 +20,6 @@ module.exports = Enum({
   JUST_ACCOUNT_DELETED: 'Account deleted successfully! But failure while deleting statements! Contact your manager to complete deletion.',
   N_STATEMENTS_DELETED: 'deleted statements!',
 
+  JOI_VALIDATION_NAME_ERROR: 'ValidationError'
+
 });

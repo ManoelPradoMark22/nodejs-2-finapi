@@ -2,6 +2,7 @@ const chai  = require('chai');
 const chaiHttp  = require('chai-http');
 const server  = require('../src/index');
 const RandomGenerate  = require('../src/support/util/RandomGenerate');
+const UsefulErrorObject  = require('../src/support/util/UsefulErrorObject');
 
 //assertion style
 chai.should();
@@ -11,6 +12,7 @@ chai.use(chaiHttp);
 const VALID_AND_EXISTING_ACCOUNT_CPF = '84293271007';
 const VALID_AND_NON_EXISTENT_ACCOUNT_CPF = '18925985071';
 const INVALID_CPF = '02303950521';
+const ARRAY_KEYS_OBJECT_ERROR = Object.keys(UsefulErrorObject());
 
 describe('Account', function() {
     describe ('GET /all-accounts', function() {
@@ -44,28 +46,30 @@ describe('Account', function() {
                 .end((err, response) => {
                     response.should.have.status(404);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys(['name', 'httpStatusCode', 'context']);
+                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
 
-        it('it should get a validation object when cpf is invalid - JOI (422)', (done) => {
+        it('it should get a validation error object when cpf is invalid - JOI (422)', (done) => {
             chai.request(server)
                 .get("/account")
                 .set('cpf', INVALID_CPF)
                 .end((err, response) => {
                     response.should.have.status(422);
                     response.body.should.be.a('object');
+                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
 
-        it('it should get a validation object when cpf is missing - JOI (422)', (done) => {
+        it('it should get a validation error object when cpf is missing - JOI (422)', (done) => {
             chai.request(server)
                 .get("/account")
                 .end((err, response) => {
                     response.should.have.status(422);
                     response.body.should.be.a('object');
+                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
@@ -104,7 +108,7 @@ describe('Account', function() {
                 .end((err, response) => {
                     response.should.have.status(406);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys(['name', 'httpStatusCode', 'context']);
+                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
@@ -145,7 +149,7 @@ describe('Account', function() {
                 .end((err, response) => {
                     response.should.have.status(404);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys(['name', 'httpStatusCode', 'context']);
+                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });

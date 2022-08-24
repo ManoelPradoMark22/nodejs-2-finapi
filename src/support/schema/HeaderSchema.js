@@ -5,10 +5,7 @@ const ReturnValidate = require('../util/ReturnValidate');
 function validateHeaderCpf(req, res, next) {
   const { cpf } = req.headers;
 
-  if(!cpf) return res.status(422).json({
-    status: 'error',
-    message: EnumMessages.MISSING_CPF
-  });
+  if(!cpf) return ReturnValidate.returnErrorResponse(res, 422, EnumMessages.MISSING_CPF);
 
   const schema = EnumJoi.CPF_JOI;
 

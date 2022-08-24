@@ -1,8 +1,21 @@
 const target = { "id": "1", "name": "mango", "color": "yellow"};
 console.log(JSON.stringify(Object.entries(target)));
 
+function objectError(name, httpStatusCode, context){
 
-const target2 = { id: "1"};
+  return {
+    name: name,
+    httpStatusCode: httpStatusCode,
+    context: context
+  }
+
+};
+
+console.log(objectError())
+
+const target2 = { id: "1", cpf: 'dasd'};
+const keys = Object.keys(target2)
+console.log(keys)
 const keyValue = Object.entries(target2)
 console.log(keyValue);
 console.log(keyValue[0][0])
