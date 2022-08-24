@@ -21,4 +21,6 @@ module.exports = Enum({
   JUST_ACCOUNT_DELETED: 'Account deleted successfully! But failure while deleting statements! Contact your manager to complete deletion.',
   N_STATEMENTS_DELETED: 'deleted statements!',
 
+  MONGO_DUPLICATED_KEY: 'DuplcatedKeyError'
+
 });

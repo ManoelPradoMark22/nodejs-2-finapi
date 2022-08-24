@@ -9,11 +9,16 @@ async function createAccount(req, res) {
 }
 
 async function updateAccount(req, res) {
-    const dataBody = req.body;
-    const { cpf } = req.headers;
+    try {
+        const dataBody = req.body;
+        const { cpf } = req.headers;
 
-    const accountUpdated = await AccountService.updateAccount(dataBody, cpf);
-    return res.json(accountUpdated);
+        const accountUpdated = await AccountService.updateAccount(dataBody, cpf);
+        return res.json(accountUpdated);
+    } catch(e) {
+        const { httpStatusCode } = e;
+        return httpStatusCode ? res.status(httpStatusCode).json(e) : res.status(500).json(e);
+    }
 }
 
 async function listAllAccounts(req, res) {

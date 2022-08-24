@@ -37,7 +37,11 @@ async function createAccount(body) {
 async function updateAccount(body, cpf) {
     try{
         const existingAccount = await AccountModel.findOne({ cpf: cpf });
-        if(!existingAccount) return EnumMessages.ACCOUNT_NOT_FOUND;
+        if(!existingAccount) throw new ManageError.UsefulError(
+            'NotFoundError',
+            404,
+            EnumMessages.ACCOUNT_NOT_FOUND
+        )
 
         const { firstName, lastName, ...onlyRequiredFields } = body;
 
@@ -60,13 +64,18 @@ async function updateAccount(body, cpf) {
             });
         
             if(similarAccount){
-                returnString = [];
+                returnObj = {};
                 for (const key in onlyRequiredFields) {
                     if(onlyRequiredFields[key] == similarAccount[key]) {
-                        returnString.push(`${key}=${similarAccount[key]}`);
+                        returnObj = {...returnObj, [key]: similarAccount[key]}
                     }
                 }
-                return `${EnumMessages.ACCOUNT_ALREADY_EXISTS_WITH} ${returnString.join(',')}`;
+                throw new ManageError.UsefulError(
+                    EnumMessages.MONGO_DUPLICATED_KEY,
+                    406,
+                    'Some unique fields already exists in another account',
+                    returnObj
+                )
             }
 
         }
@@ -97,7 +106,7 @@ async function updateAccount(body, cpf) {
 
         return accountUdated;
     }catch(e) {
-        return e;
+        throw e;
     }
 }
 

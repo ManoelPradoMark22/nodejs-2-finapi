@@ -7,4 +7,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/', router);
-app.listen(PORT,() => console.log(`Servidor rodando na porta ${PORT}`))
+const server = app.listen(PORT,() => console.log(`Servidor rodando na porta ${PORT}`));
+
+module.exports = server;

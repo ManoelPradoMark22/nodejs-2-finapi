@@ -20,3 +20,8 @@ const teste = {};
   && Object.keys(teste).length !== 0
   && Object.getPrototypeOf(teste) === Object.prototype
 ) ? console.log(true) : console.log(false);
+
+const newObj = {}
+console.log(newObj)
+newObj[casa] = 'Nova'
+console.log(newObj)
