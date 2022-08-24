@@ -2,7 +2,7 @@ const chai  = require('chai');
 const chaiHttp  = require('chai-http');
 const server  = require('../src/index');
 const RandomGenerate  = require('../src/support/util/RandomGenerate');
-const UsefulErrorObject  = require('../src/support/util/UsefulErrorObject');
+const ManageError  = require('../src/support/util/ManageError');
 
 //assertion style
 chai.should();
@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 const VALID_AND_EXISTING_ACCOUNT_CPF = '84293271007';
 const VALID_AND_NON_EXISTENT_ACCOUNT_CPF = '18925985071';
 const INVALID_CPF = '02303950521';
-const ARRAY_KEYS_OBJECT_ERROR = Object.keys(UsefulErrorObject());
+const ARRAY_KEYS_OBJECT_ERROR = Object.keys(ManageError.objectError());
 
 describe('Account', function() {
     describe ('GET /all-accounts', function() {

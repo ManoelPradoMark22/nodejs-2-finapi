@@ -2,7 +2,6 @@ const AccountModel = require('../models/Account');
 const StatementModel = require('../models/Statement');
 const EnumMessages = require('../support/enum/EnumMessages');
 const ManageError = require('../support/util/ManageError');
-const UsefulError = require('../support/util/UsefulError');
 
 async function createAccount(body) {
     try{
@@ -21,7 +20,7 @@ async function updateAccount(body, cpf) {
             { returnOriginal: false },
         );
             
-        if(!accountUpdated) throw new UsefulError('NotFoundError', 404, EnumMessages.ACCOUNT_NOT_FOUND);
+        if(!accountUpdated) throw new ManageError.UsefulError('NotFoundError', 404, EnumMessages.ACCOUNT_NOT_FOUND);
 
         return accountUpdated;
     }catch(e) {
@@ -42,7 +41,7 @@ async function getAccount(cpf) {
     try{
         const account = await AccountModel.findOne({ cpf: cpf });
 
-        if(!account) throw new UsefulError('NotFoundError', 404, EnumMessages.ACCOUNT_NOT_FOUND);
+        if(!account) throw new ManageError.UsefulError('NotFoundError', 404, EnumMessages.ACCOUNT_NOT_FOUND);
 
         return account;
     }catch(e) {
