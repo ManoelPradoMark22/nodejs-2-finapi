@@ -42,6 +42,8 @@ describe('Account', function() {
                         'cellphone',
                         'firstName',
                         'lastName',
+                        'createdAt',
+                        'updatedAt'
                     ]);
                     response.body.should.have.property('cpf').eql(cpf);
                     done();
