@@ -1,9 +1,9 @@
-const EnumCODES = require('../enum/EnumCODES');
+const EnumCodes = require('../enum/EnumCodes');
 const EnumMessages = require('../enum/EnumMessages');
 
 function keyValueError(e, body, text){
   const { keyValue, code } = e;
-  if(code===EnumCODES.CODE_KEY_DUPLICATED_MONGO) {
+  if(code===EnumCodes.CODE_KEY_DUPLICATED_MONGO) {
       const keyArray = Object.keys(keyValue);
       const key = keyArray[0];
       return new UsefulError(
