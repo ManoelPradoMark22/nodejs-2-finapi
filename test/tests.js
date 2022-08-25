@@ -4,11 +4,23 @@ const server  = require('../src/index');
 const RandomGenerate  = require('../src/support/util/RandomGenerate');
 const ManageError  = require('../src/support/util/ManageError');
 
+// TESTE UNITARIO******(estudar) TESTA OS ARQUIVOS - AS FUNCOES DE CADA ARQUIVO
+//tudo mochado . Sinon (lib)
+//coverage do projeto (usa testes unitarios para rodar o coverage)
+//100% do coverage todas as linhas do codigo estao cobertas pelos testes
+//npm run coverage:details
+
+//1 pasta p teste unit (cada arquivo tem um arquivo de teste unico)
+//e outra p teste de feature (p cada rota ter um arquivo de teste unico)
+
+//TESTE DE FEATURE
+
 //assertion style
 chai.should();
 
 chai.use(chaiHttp);
 
+//suport
 const VALID_AND_EXISTING_ACCOUNT_CPF = '84293271007';
 const VALID_AND_NON_EXISTENT_ACCOUNT_CPF = '18925985071';
 const INVALID_CPF = '02303950521';
@@ -88,6 +100,7 @@ describe('Account', function() {
 
     describe ('POST /account', function() {
         it('it should POST an account (200)', (done) => {           
+            //pasta support
             const account = {
                 firstName: RandomGenerate.name(),
                 lastName: RandomGenerate.name(),
