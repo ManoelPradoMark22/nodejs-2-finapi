@@ -1,4 +1,5 @@
-const { router } = require("../config/app/AppConfig")
+const cors = require('cors');
+const { router, app } = require("../config/app/AppConfig");
 const AccountController = require('../controllers/AccountController');
 const StatementController = require('../controllers/StatementController');
 const CategorieController = require('../controllers/CategorieController');
@@ -7,6 +8,8 @@ const AccountSchema  = require('../support/schema/AccountSchema');
 const StatementSchema  = require('../support/schema/StatementSchema');
 const CategorieSchema  = require('../support/schema/CategorieSchema');
 const HeaderSchema  = require('../support/schema/HeaderSchema');
+
+app.use(cors());
 
 router.get('/', (req, res) => res.send('Hello World'));//learning tests
 
