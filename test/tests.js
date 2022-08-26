@@ -1,30 +1,10 @@
-const chai  = require('chai');
-const chaiHttp  = require('chai-http');
-const server  = require('../src/index');
-const RandomGenerate  = require('../src/support/util/RandomGenerate');
-const ManageError  = require('../src/support/util/ManageError');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../src/index');
+const EnumTestData = require('./support/enum/EnumTestData');
 
-// TESTE UNITARIO******(estudar) TESTA OS ARQUIVOS - AS FUNCOES DE CADA ARQUIVO
-//tudo mochado . Sinon (lib)
-//coverage do projeto (usa testes unitarios para rodar o coverage)
-//100% do coverage todas as linhas do codigo estao cobertas pelos testes
-//npm run coverage:details
-
-//1 pasta p teste unit (cada arquivo tem um arquivo de teste unico)
-//e outra p teste de feature (p cada rota ter um arquivo de teste unico)
-
-//TESTE DE FEATURE
-
-//assertion style
 chai.should();
-
 chai.use(chaiHttp);
-
-//suport
-const VALID_AND_EXISTING_ACCOUNT_CPF = '84293271007';
-const VALID_AND_NON_EXISTENT_ACCOUNT_CPF = '18925985071';
-const INVALID_CPF = '02303950521';
-const ARRAY_KEYS_OBJECT_ERROR = Object.keys(ManageError.objectError());
 
 describe('Account', function() {
     describe ('GET /all-accounts', function() {
@@ -40,24 +20,15 @@ describe('Account', function() {
     });
 
     describe ('GET /account', function() {
-        const cpf = VALID_AND_EXISTING_ACCOUNT_CPF;
         it('it should GET an account by a valid cpf (200)', (done) => {
             chai.request(server)
                 .get("/account")
-                .set('cpf', cpf)
+                .set('cpf', EnumTestData.VALID_AND_EXISTING_ACCOUNT_CPF)
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys([
-                        'cpf',
-                        'email',
-                        'cellphone',
-                        'firstName',
-                        'lastName',
-                        'createdAt',
-                        'updatedAt'
-                    ]);
-                    response.body.should.have.property('cpf').eql(cpf);
+                    response.body.should.includes.all.keys(EnumTestData.ARRAY_KEYS_BODY_GET_ACCOUNT);
+                    response.body.should.have.property('cpf').eql(EnumTestData.VALID_AND_EXISTING_ACCOUNT_CPF);
                     done();
                 })
         });
@@ -65,11 +36,11 @@ describe('Account', function() {
         it('it should get an error object when account is not found (404)', (done) => {
             chai.request(server)
                 .get("/account")
-                .set('cpf', VALID_AND_NON_EXISTENT_ACCOUNT_CPF)
+                .set('cpf', EnumTestData.VALID_AND_NON_EXISTENT_ACCOUNT_CPF)
                 .end((err, response) => {
                     response.should.have.status(404);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
+                    response.body.should.includes.all.keys(EnumTestData.ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
@@ -77,11 +48,11 @@ describe('Account', function() {
         it('it should get a validation error object when cpf is invalid - JOI (422)', (done) => {
             chai.request(server)
                 .get("/account")
-                .set('cpf', INVALID_CPF)
+                .set('cpf', EnumTestData.INVALID_CPF)
                 .end((err, response) => {
                     response.should.have.status(422);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
+                    response.body.should.includes.all.keys(EnumTestData.ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
@@ -92,7 +63,7 @@ describe('Account', function() {
                 .end((err, response) => {
                     response.should.have.status(422);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
+                    response.body.should.includes.all.keys(EnumTestData.ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
@@ -100,17 +71,9 @@ describe('Account', function() {
 
     describe ('POST /account', function() {
         it('it should POST an account (200)', (done) => {           
-            //pasta support
-            const account = {
-                firstName: RandomGenerate.name(),
-                lastName: RandomGenerate.name(),
-                cpf: RandomGenerate.cpf(),
-                email: RandomGenerate.email(),
-                cellphone: RandomGenerate.cellphone()
-            }
             chai.request(server)
                 .post("/account")
-                .send(account)
+                .send(EnumTestData.BODY_FULL_POST_SUCCESS)
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('object');
@@ -119,20 +82,13 @@ describe('Account', function() {
         });
 
         it('it should get an error object when trying POST an account with unique key duplicated (406)', (done) => {
-            const account = {
-                firstName: "Bruna",
-                lastName: "Silva",
-                cpf: "97728322087",
-                email: "brunasilva@gmail.com",
-                cellphone: "77991998771"
-            }
             chai.request(server)
                 .post("/account")
-                .send(account)
+                .send(EnumTestData.BODY_FULL_POST_DUPLICATED_KEY)
                 .end((err, response) => {
                     response.should.have.status(406);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
+                    response.body.should.includes.all.keys(EnumTestData.ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
@@ -140,17 +96,10 @@ describe('Account', function() {
 
     describe ('PUT /account', function() {
         it('it should PUT an account (200)', (done) => {
-            const account = {
-                firstName: RandomGenerate.name(),
-                lastName: RandomGenerate.name(),
-                email: RandomGenerate.email(),
-                cellphone: RandomGenerate.cellphone()
-            }
-
             chai.request(server)
                 .put("/account")
-                .set('cpf', VALID_AND_EXISTING_ACCOUNT_CPF)
-                .send(account)
+                .set('cpf', EnumTestData.VALID_AND_EXISTING_ACCOUNT_CPF)
+                .send(EnumTestData.BODY_FULL_PUT_SUCCESS)
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('object');
@@ -159,40 +108,27 @@ describe('Account', function() {
         });
 
         it('it should get an error object when trying PUT an account with unique key duplicated (406)', (done) => {
-            const account = {
-                firstName: "Bruna",
-                lastName: "Silva",
-                email: "brunasilva@gmail.com",
-                cellphone: "77991998771"
-            }
             chai.request(server)
                 .put("/account")
-                .set('cpf', VALID_AND_EXISTING_ACCOUNT_CPF)
-                .send(account)
+                .set('cpf', EnumTestData.VALID_AND_EXISTING_ACCOUNT_CPF)
+                .send(EnumTestData.BODY_FULL_PUT_DUPLICATED_KEY)
                 .end((err, response) => {
                     response.should.have.status(406);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
+                    response.body.should.includes.all.keys(EnumTestData.ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
 
         it('it should get an error object when account is not found (404)', (done) => {
-            const account = {
-                firstName: "Bruna",
-                lastName: "Silva",
-                email: "brunasilva@gmail.com",
-                cellphone: "77991998771"
-            }
-
             chai.request(server)
                 .put("/account")
-                .set('cpf', VALID_AND_NON_EXISTENT_ACCOUNT_CPF)
-                .send(account)
+                .set('cpf', EnumTestData.VALID_AND_NON_EXISTENT_ACCOUNT_CPF)
+                .send(EnumTestData.BODY_FULL_PUT_SUCCESS)
                 .end((err, response) => {
                     response.should.have.status(404);
                     response.body.should.be.a('object');
-                    response.body.should.includes.all.keys(ARRAY_KEYS_OBJECT_ERROR);
+                    response.body.should.includes.all.keys(EnumTestData.ARRAY_KEYS_OBJECT_ERROR);
                     done();
                 })
         });
