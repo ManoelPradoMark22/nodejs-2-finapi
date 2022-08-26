@@ -21,28 +21,28 @@ async function updateAccount(req, res) {
 
 async function listAllAccounts(req, res) {
     const allAccounts = await AccountService.listAllAccounts()
-    
-    return res.json(allAccounts);
+    const { httpStatusCode } = allAccounts;
+
+    return res.status(httpStatusCode).json(allAccounts);
 }
 
 async function getAccount(req, res) {
     const { cpf } = req.headers;
 
-    try {
-        const allAccounts = await AccountService.getAccount(cpf);
-        return res.json(allAccounts);
-    }catch(e){
-        const { httpStatusCode } = e;
-        return httpStatusCode ? res.status(httpStatusCode).json(e) : res.status(500).json(e);
-    }
+    const account = await AccountService.getAccount(cpf);
+    const { httpStatusCode } = account;
+
+    return res.status(httpStatusCode).json(account);
+
 }
 
 async function deleteAccount(req, res) {
     const { cpf } = req.headers;
 
     const deletedAccount = await AccountService.deleteAccount(cpf);
+    const { httpStatusCode } = deletedAccount;
     
-    return res.json(deletedAccount);
+    return res.status(httpStatusCode).json(deletedAccount);
 }
 
 module.exports = {

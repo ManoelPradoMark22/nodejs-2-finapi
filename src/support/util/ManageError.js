@@ -1,11 +1,7 @@
 const EnumCodes = require('../enum/EnumCodes');
 const EnumMessages = require('../enum/EnumMessages');
-
-const serverErrorObject = objectResponse(
-  'ServerError', 
-  500, 
-  EnumMessages.ERROR_SERVER_MESSAGE
-);
+const EnumObjectResponse = require('../enum/EnumObjectResponse');
+const ObjectResponse = require('../util/ObjectResponse');
 
 function keyValueError(e, body, text){
   try {
@@ -13,26 +9,17 @@ function keyValueError(e, body, text){
     if(code===EnumCodes.CODE_KEY_DUPLICATED_MONGO) {
         const keyArray = Object.keys(keyValue);
         const key = keyArray[0];
-        return objectResponse(
+        return ObjectResponse(
           EnumMessages.MONGO_DUPLICATED_KEY,
           406,
           `Already exists ${text} with ${key}=${body[key]}`
         );
     }
     
-    return serverErrorObject;
+    return EnumObjectResponse.SERVER_ERROR;
   }catch(e) {
-    return serverErrorObject;
+    return EnumObjectResponse.SERVER_ERROR;
   }
 }
 
-function objectResponse(name, httpStatusCode, message, data){
-  return {
-    name: name,
-    httpStatusCode: httpStatusCode,
-    message: message,
-    data: data
-  }
-};
-
-module.exports = { keyValueError, objectResponse };
+module.exports = { keyValueError };

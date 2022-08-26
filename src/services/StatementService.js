@@ -3,40 +3,56 @@ const AccountModel = require('../models/Account');
 const CategoryModel = require('../models/Category');
 const EnumTransactionTypes = require('../support/enum/EnumTransactionTypes');
 const EnumMessages = require('../support/enum/EnumMessages');
+const EnumObjectResponse = require('../support/enum/EnumObjectResponse');
 
 async function createStatement(body, cpf) {
     try{
         const { keyCategory } = body;
 
         const existingCategory = await CategoryModel.findOne({ key: keyCategory });
-        if(!existingCategory) return {error: EnumMessages.CATEGORY_NOT_FOUND};
+        if(!existingCategory) return EnumObjectResponse.CATEGORY_NOT_FOUND;
 
         const existingAccount = await AccountModel.findOne({ cpf: cpf });
-        if(!existingAccount) return {error: EnumMessages.ACCOUNT_NOT_FOUND};
+        if(!existingAccount) return EnumObjectResponse.ACCOUNT_NOT_FOUND;
 
         const newObject = Object.assign({ accountCpf: cpf }, body);
         const statementCreated = await StatementModel.create(newObject);
-        return statementCreated;
+        return ObjectResponse(
+            EnumMessages.SUCCESS_NAME,
+            201,
+            EnumMessages.SUCCESS_CREATE_STATEMENT,
+            statementCreated
+        );
     }catch(e) {
-        return e.message;
+        return EnumObjectResponse.SERVER_ERROR;
     }
 }
 
 async function listAllStatements() {
     try{
         const allStatements = await StatementModel.find();
-        return allStatements;
+        return ObjectResponse(
+            EnumMessages.SUCCESS_NAME,
+            200,
+            EnumMessages.SUCCESS_LISTING_ALL_STATEMENTS,
+            allStatements
+        );
     }catch(e) {
-        return e.message;
+        return EnumObjectResponse.SERVER_ERROR;
     }    
 }
 
 async function listStatementsByCpf(cpf) {
     try{
         const statements = await StatementModel.find({ accountCpf: cpf });
-        return statements;
+        return ObjectResponse(
+            EnumMessages.SUCCESS_NAME,
+            200,
+            EnumMessages.SUCCESS_GET_STATEMENTS,
+            statements
+        );
     }catch(e) {
-        return e.message;
+        return EnumObjectResponse.SERVER_ERROR;
     }
 }
 
@@ -61,9 +77,14 @@ async function getBalanceByCpf(cpf) {
 
         balance.total = balance.inflow - balance.outflow;
 
-        return balance;
+        return ObjectResponse(
+            EnumMessages.SUCCESS_NAME,
+            200,
+            EnumMessages.SUCCESS_GET_BALANCE,
+            balance
+        );
     }catch(e) {
-        return e.message;
+        return EnumObjectResponse.SERVER_ERROR;
     }
 }
 
@@ -94,9 +115,14 @@ async function getCategoryBalanceByCpf(cpf) {
             })
         }
 
-        return objBalance;
+        return ObjectResponse(
+            EnumMessages.SUCCESS_NAME,
+            200,
+            EnumMessages.SUCCESS_GET_FULL_BALANCE,
+            objBalance
+        );
     }catch(e) {
-        return e.message;
+        return EnumObjectResponse.SERVER_ERROR;
     }
 }
 
@@ -106,11 +132,19 @@ async function deleteAllStatementsByCpf(cpf) {
 
         const { acknowledged, deletedCount } = deletedAccount;
 
-        if(acknowledged) return `${deletedCount} ${EnumMessages.N_STATEMENTS_DELETED}`;
+        if(acknowledged) return ObjectResponse(
+            EnumMessages.SUCCESS_NAME,
+            200,
+            `${deletedCount} ${EnumMessages.N_STATEMENTS_DELETED}`
+        );
 
-        return EnumMessages.STATEMENTS_NOT_FOUND;
+        return ObjectResponse(
+            EnumMessages.ERROR_NOT_FOUND_NAME,
+            404,
+            EnumMessages.STATEMENTS_NOT_FOUND
+        );
     }catch(e) {
-        return e.message;
+        return EnumObjectResponse.SERVER_ERROR;
     }    
 }
 

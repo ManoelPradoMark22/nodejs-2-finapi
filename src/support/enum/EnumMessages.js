@@ -25,6 +25,18 @@ module.exports = Enum({
 
   SUCCESS_CREATE_ACCOUNT: 'Account created successfully!',
   SUCCESS_UPDATE_ACCOUNT: 'Account updated successfully!',
+  SUCCESS_LISTING_ALL_ACCOUNTS: 'Success in listing all accounts!',
+  SUCCESS_GET_ACCOUNT: 'Success in getting account!',
+
+  SUCCESS_CREATE_CATEGORY: 'Category created successfully!',
+  SUCCESS_UPDATE_CATEGORY: 'Category updated successfully!',
+  SUCCESS_LISTING_ALL_CATEGORIES: 'Success in listing all categories!',
+
+  SUCCESS_CREATE_STATEMENT: 'Statement created successfully!',
+  SUCCESS_LISTING_ALL_STATEMENTS: 'Success in listing all statements!',
+  SUCCESS_GET_STATEMENTS: 'Success in getting statements!',
+  SUCCESS_GET_BALANCE: 'Success in getting balance account!',
+  SUCCESS_GET_FULL_BALANCE: 'Success in getting full balance account!',
 
   SUCCESS_NAME: 'Success',
 
