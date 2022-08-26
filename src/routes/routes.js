@@ -17,12 +17,12 @@ router.post("/account", AccountSchema.validateBodyPOSTaccount, (req, res) => Acc
 router.get("/all-accounts", (req, res) => AccountController.listAllAccounts(req, res));
 router.get("/all-statements", (req, res) => StatementController.listAllStatements(req, res));
 
-router.get("/categorie", (req, res) => CategorieController.listAllCategories(req, res));
-router.post("/categorie", 
+router.get("/all-categories", (req, res) => CategorieController.listAllCategories(req, res));
+router.post("/category", 
   CategorieSchema.validateBodyPOSTCategory, 
   (req, res) => CategorieController.createCategory(req, res)
 );
-router.put("/categorie", 
+router.put("/category", 
   HeaderSchema.validateHeaderKey, 
   CategorieSchema.validateBodyPUTCategory, 
   (req, res) => CategorieController.updateCategory(req, res)
