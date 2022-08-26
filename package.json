@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "test": "nodemon ./node_modules/mocha/bin/mocha"
+    "test": "mocha",
+    "test:int": "mocha test/integration"
   },
   "dependencies": {
     "cors": "^2.8.5",
