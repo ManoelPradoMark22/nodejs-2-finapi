@@ -6,9 +6,15 @@ const ManageError = require('../support/util/ManageError');
 async function createAccount(body) {
     try{
         const accountCreated = await AccountModel.create(body);
-        return accountCreated;
+
+        return ManageError.objectResponse(
+            EnumMessages.SUCCESS_NAME,
+            201,
+            EnumMessages.SUCCESS_CREATE_ACCOUNT,
+            accountCreated
+        );
     }catch(e) {
-        throw ManageError.keyValueError(e, body, 'an account');
+        return ManageError.keyValueError(e, body, 'an account');
     }
 }
 
@@ -20,11 +26,20 @@ async function updateAccount(body, cpf) {
             { returnOriginal: false },
         );
             
-        if(!accountUpdated) throw new ManageError.UsefulError('NotFoundError', 404, EnumMessages.ACCOUNT_NOT_FOUND);
+        if(!accountUpdated) return ManageError.objectResponse(
+            EnumMessages.ERROR_NOT_FOUND, 
+            404,
+            EnumMessages.ACCOUNT_NOT_FOUND
+        );
 
-        return accountUpdated;
+        return ManageError.objectResponse(
+            EnumMessages.SUCCESS_NAME,
+            200,
+            EnumMessages.SUCCESS_UPDATE_ACCOUNT,
+            accountUpdated
+        );
     }catch(e) {
-        throw ManageError.keyValueError(e, body, 'an account');
+        return ManageError.keyValueError(e, body, 'an account');
     }
 }
 

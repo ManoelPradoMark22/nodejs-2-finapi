@@ -21,6 +21,15 @@ module.exports = Enum({
   N_STATEMENTS_DELETED: 'deleted statements!',
 
   JOI_VALIDATION_NAME_ERROR: 'ValidationError',
-  MONGO_DUPLICATED_KEY: 'DuplcatedKeyError'
+  MONGO_DUPLICATED_KEY: 'DuplcatedKeyError',
+
+  SUCCESS_CREATE_ACCOUNT: 'Account created successfully!',
+  SUCCESS_UPDATE_ACCOUNT: 'Account updated successfully!',
+
+  SUCCESS_NAME: 'Success',
+
+  ERROR_SERVER_NAME: 'ServerError',
+  ERROR_SERVER_MESSAGE: 'Server Error! Try again later!',
+  ERROR_NOT_FOUND_NAME: 'NotFoundError'
 
 });

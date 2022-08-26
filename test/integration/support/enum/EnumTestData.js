@@ -7,7 +7,7 @@ module.exports = Enum({
   VALID_AND_NON_EXISTENT_ACCOUNT_CPF: '18925985071',
   INVALID_CPF: '02303950521',
 
-  ARRAY_KEYS_OBJECT_ERROR: ['name', 'httpStatusCode', 'context'],
+  ARRAY_KEYS_OBJECT_ERROR: ['name', 'httpStatusCode', 'message'],
   ARRAY_KEYS_BODY_GET_ACCOUNT: [
     'cpf',
     'email',

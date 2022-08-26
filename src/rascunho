@@ -1,17 +1,17 @@
 const target = { "id": "1", "name": "mango", "color": "yellow"};
 console.log(JSON.stringify(Object.entries(target)));
 
-function objectError(name, httpStatusCode, context){
+function objectResponse(name, httpStatusCode, message){
 
   return {
     name: name,
     httpStatusCode: httpStatusCode,
-    context: context
+    message: message
   }
 
 };
 
-console.log(objectError())
+console.log(objectResponse())
 
 const target2 = { id: "1", cpf: 'dasd'};
 const keys = Object.keys(target2)
@@ -36,8 +36,19 @@ const email = `dasdasd${sufix[indexSufix]}`;
 
 console.log(email);
 
-const Account = require('./models/Account');
-//const keysModel = Object.keys(Account.schema.eachPath(e => e));
-//console.log(keysModel);
+function testando() {
+  try {
+    a = 0;
+  
+    if(a==1) {
+      return 'Ola!'
+    }
 
-Account.schema.eachPath(e => console.log(e))
+    throw '';
+
+  }catch(e){
+    return 'Ola!'
+  }
+}
+
+console.log(testando());

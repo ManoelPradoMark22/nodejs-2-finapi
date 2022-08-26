@@ -3,26 +3,20 @@ const AccountService = require('../services/AccountService');
 async function createAccount(req, res) {
     const dataBody = req.body;
 
-    try{
-        const accountCreated = await AccountService.createAccount(dataBody);
-        return res.json(accountCreated);
-    }catch(e){
-        const { httpStatusCode } = e;
-        return httpStatusCode ? res.status(httpStatusCode).json(e) : res.status(500).json(e);
-    }
+    const accountCreated = await AccountService.createAccount(dataBody);
+    const { httpStatusCode } = accountCreated;
+
+    return res.status(httpStatusCode).json(accountCreated);
 }
 
 async function updateAccount(req, res) {
     const dataBody = req.body;
     const { cpf } = req.headers;
 
-    try{
-        const accountUpdated = await AccountService.updateAccount(dataBody, cpf);
-        return res.json(accountUpdated);
-    }catch(e){
-        const { httpStatusCode } = e;
-        return httpStatusCode ? res.status(httpStatusCode).json(e) : res.status(500).json(e);
-    }
+    const accountUpdated = await AccountService.updateAccount(dataBody, cpf);
+    const { httpStatusCode } = accountUpdated;
+
+    return res.status(httpStatusCode).json(accountUpdated);
 }
 
 async function listAllAccounts(req, res) {

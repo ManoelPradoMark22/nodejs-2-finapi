@@ -2,7 +2,7 @@ const ManageError = require('./ManageError');
 const EnumMessages = require('../enum/EnumMessages');
 
 function returnErrorResponse(res, statusCode, errorMessage) {
-  return res.status(statusCode).json(ManageError.objectError(
+  return res.status(statusCode).json(ManageError.objectResponse(
     EnumMessages.JOI_VALIDATION_NAME_ERROR,
     statusCode,
     errorMessage
