@@ -1,4 +1,4 @@
-const { chai, server, testData } = require('../../../../support/enum/EnumTestData');
+const { chai, server, testData } = require('../../../config/TestConfig');
 
 module.exports = () => describe('POST', () => {
   it('it should POST an account (200)', (done) => {           
@@ -6,8 +6,13 @@ module.exports = () => describe('POST', () => {
       .post("/account")
       .send(testData.BODY_FULL_POST_SUCCESS)
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
         res.body.should.be.a('object');
+        res.body.should.includes.all.keys(testData.ARRAY_KEYS_OBJECT_RESPONSE);
+        res.body.data.should.be.a('object');
+        res.body.data.should.includes.all.keys(testData.ARRAY_KEYS_BODY_GET_ACCOUNT);
+        res.body.data.cpf.should.be.eql(testData.BODY_FULL_POST_SUCCESS.cpf);
+        res.body.httpStatusCode.should.be.eql(201);
         done();
       })
   });
@@ -20,6 +25,7 @@ module.exports = () => describe('POST', () => {
         res.should.have.status(406);
         res.body.should.be.a('object');
         res.body.should.includes.all.keys(testData.ARRAY_KEYS_OBJECT_RESPONSE_NO_DATA);
+        res.body.httpStatusCode.should.be.eql(406);
         done();
       })
   });
