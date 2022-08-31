@@ -1,4 +1,4 @@
-const { chai, server, testData } = require('../../../config/TestConfig');
+const { chai, server, testData } = require('../../../../support/enum/EnumTestData');
 
 module.exports = () => describe('POST', () => {
   it('it should POST an account (200)', (done) => {           

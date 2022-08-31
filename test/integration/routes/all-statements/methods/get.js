@@ -1,4 +1,4 @@
-const { chai, server, testData } = require('../../../config/TestConfig');
+const { chai, server, testData } = require('../../../../support/enum/EnumTestData');
 
 module.exports = () => describe ('GET', () => {
   it('it should GET all statements (200)', (done) => {

@@ -12,9 +12,13 @@ async function createAccount(req, res) {
 async function updateAccount(req, res) {
     const dataBody = req.body;
     const { cpf } = req.headers;
+    console.log(req);
+    console.log(res);
 
     const accountUpdated = await AccountService.updateAccount(dataBody, cpf);
     const { httpStatusCode } = accountUpdated;
+    console.log(req);
+    console.log(res);
 
     return res.status(httpStatusCode).json(accountUpdated);
 }

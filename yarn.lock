@@ -316,6 +316,11 @@
     "qs" "^6.5.1"
     "superagent" "^3.7.0"
 
+"chai-subset@^1.6.0":
+  "integrity" "sha512-K3d+KmqdS5XKW5DWPd5sgNffL3uxdDe+6GdnJh3AYPhwnBGRY5urfvfcbRtWIvvpz+KxkL9FeBB6MZewLUNwug=="
+  "resolved" "https://registry.npmjs.org/chai-subset/-/chai-subset-1.6.0.tgz"
+  "version" "1.6.0"
+
 "chai@4.3.6":
   "integrity" "sha512-bbcp3YfHCUzMOvKqsztczerVgBKSsEijCySNlHHbX3VG1nskvqjz5Rfso1gGwD6w6oOV3eI60pKuMOV5MV7p3Q=="
   "resolved" "https://registry.npmjs.org/chai/-/chai-4.3.6.tgz"
