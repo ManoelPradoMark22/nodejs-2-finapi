@@ -21,7 +21,7 @@ module.exports = Enum({
   N_STATEMENTS_DELETED: 'deleted statements!',
 
   JOI_VALIDATION_NAME_ERROR: 'ValidationError',
-  MONGO_DUPLICATED_KEY: 'DuplcatedKeyError',
+  MONGO_DUPLICATED_KEY: 'DuplicatedKeyError',
 
   SUCCESS_CREATE_ACCOUNT: 'Account created successfully!',
   SUCCESS_UPDATE_ACCOUNT: 'Account updated successfully!',
