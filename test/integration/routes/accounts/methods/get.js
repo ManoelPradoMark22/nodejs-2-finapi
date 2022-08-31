@@ -1,4 +1,4 @@
-const { chai, server, testData } = require('../../../../support/enum/EnumTestData');
+const { chai, server, testData } = require('../../../config/TestConfig');
 
 module.exports = () => describe ('GET', () => {
   it('it should GET an account by a valid cpf (200)', (done) => {
@@ -8,8 +8,11 @@ module.exports = () => describe ('GET', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
-        res.body.should.includes.all.keys(testData.ARRAY_KEYS_BODY_GET_ACCOUNT);
-        res.body.should.have.property('cpf').eql(testData.VALID_AND_EXISTING_ACCOUNT_CPF);
+        res.body.should.includes.all.keys(testData.ARRAY_KEYS_OBJECT_RESPONSE);
+        res.body.data.should.be.a('object');
+        res.body.data.should.includes.all.keys(testData.ARRAY_KEYS_BODY_GET_ACCOUNT);
+        res.body.data.cpf.should.be.eql(testData.VALID_AND_EXISTING_ACCOUNT_CPF);
+        res.body.httpStatusCode.should.be.eql(200);
         done();
       })
   });

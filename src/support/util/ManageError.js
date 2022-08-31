@@ -1,7 +1,7 @@
 const EnumCodes = require('../enum/EnumCodes');
 const EnumMessages = require('../enum/EnumMessages');
 const EnumObjectResponse = require('../enum/EnumObjectResponse');
-const ObjectResponse = require('../util/ObjectResponse');
+const ObjectResponse = require('./ObjectResponse');
 
 function keyValueError(e, body, text){
   try {

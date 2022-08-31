@@ -4,6 +4,7 @@ const CategoryModel = require('../models/Category');
 const EnumTransactionTypes = require('../support/enum/EnumTransactionTypes');
 const EnumMessages = require('../support/enum/EnumMessages');
 const EnumObjectResponse = require('../support/enum/EnumObjectResponse');
+const ObjectResponse = require('../support/util/ObjectResponse');
 
 async function createStatement(body, cpf) {
     try{
