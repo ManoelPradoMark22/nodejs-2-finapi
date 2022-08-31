@@ -21,7 +21,7 @@ module.exports = () => describe ('PUT', () => {
       .end((err, response) => {
         response.should.have.status(406);
         response.body.should.be.a('object');
-        response.body.should.includes.all.keys(testData.ARRAY_KEYS_OBJECT_ERROR);
+        response.body.should.includes.all.keys(testData.ARRAY_KEYS_OBJECT_RESPONSE_NO_DATA);
         done();
       })
   });
@@ -34,7 +34,7 @@ module.exports = () => describe ('PUT', () => {
       .end((err, response) => {
         response.should.have.status(404);
         response.body.should.be.a('object');
-        response.body.should.includes.all.keys(testData.ARRAY_KEYS_OBJECT_ERROR);
+        response.body.should.includes.all.keys(testData.ARRAY_KEYS_OBJECT_RESPONSE_NO_DATA);
         done();
       })
   });

@@ -19,7 +19,7 @@ module.exports = () => describe('POST', () => {
       .end((err, res) => {
         res.should.have.status(406);
         res.body.should.be.a('object');
-        res.body.should.includes.all.keys(testData.ARRAY_KEYS_OBJECT_ERROR);
+        res.body.should.includes.all.keys(testData.ARRAY_KEYS_OBJECT_RESPONSE_NO_DATA);
         done();
       })
   });

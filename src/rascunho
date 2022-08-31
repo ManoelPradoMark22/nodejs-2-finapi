@@ -13,7 +13,7 @@ function objectResponse(name, httpStatusCode, message){
 
 console.log(objectResponse())
 
-const target2 = { id: "1", cpf: 'dasd'};
+const target2 = { id: "1", cpf: 'dasd', teste: [{numb: 2}]};
 const keys = Object.keys(target2)
 console.log(keys)
 const keyValue = Object.entries(target2)

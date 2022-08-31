@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "test": "mocha",
-    "test:int": "mocha test/integration",
+    "test:int": "mocha test/integration --exit",
     "test:unit": "mocha test/unit/controllers --exit",
-    "test:coverage": "nyc --reporter=html --reporter=text npm run test:unit"
+    "test:coverage:int": "nyc --reporter=html --reporter=text npm run test:int",
+    "test:coverage:unit": "nyc --reporter=html --reporter=text npm run test:unit"
   },
   "dependencies": {
     "cors": "2.8.5",
