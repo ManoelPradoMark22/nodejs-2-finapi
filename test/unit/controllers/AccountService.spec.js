@@ -14,10 +14,11 @@ describe('Teste das funções', () => {
 
     var account1;
     var account2;
+    var account3;
 
     describe('Success', () => {
 
-        it('createAccount', async () => {
+        it('createAccount (1)', async () => {
             account1 = EnumTestData.BODY_FULL_POST_SUCCESS;
 
             const account = await index.createAccount(account1);
@@ -25,7 +26,7 @@ describe('Teste das funções', () => {
             chai.expect(account).to.containSubset(EnumUnitTest(201).RESPONSE_OBJECT_SUCCESS);
         });
 
-        it('createAccount', async () => {
+        it('createAccount (2)', async () => {
             account2 = {
                 firstName: RandomGenerate.name(),
                 lastName: RandomGenerate.name(),
@@ -35,6 +36,20 @@ describe('Teste das funções', () => {
             };
 
             const account = await index.createAccount(account2);
+
+            chai.expect(account).to.containSubset(EnumUnitTest(201).RESPONSE_OBJECT_SUCCESS);
+        });
+
+        it('createAccount (3)', async () => {
+            account3 = {
+                firstName: RandomGenerate.name(),
+                lastName: RandomGenerate.name(),
+                cpf: RandomGenerate.cpf(),
+                email: RandomGenerate.email(),
+                cellphone: RandomGenerate.cellphone()
+            };
+
+            const account = await index.createAccount(account3);
 
             chai.expect(account).to.containSubset(EnumUnitTest(201).RESPONSE_OBJECT_SUCCESS);
         });
@@ -55,6 +70,12 @@ describe('Teste das funções', () => {
             const account = await index.getAccount(account1.cpf);
     
             chai.expect(account).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_SUCCESS);
+        });
+
+        it('deleteAccount', async () => {
+            const account = await index.deleteAccount(account3.cpf);
+    
+            chai.expect(account).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_NO_DATA);
         });
     });
 
@@ -98,6 +119,18 @@ describe('Teste das funções', () => {
 
             it('getAccount (VALID_AND_NON_EXISTENT_ACCOUNT_CPF)', async () => {
                 const account = await index.getAccount(EnumTestData.VALID_AND_NON_EXISTENT_ACCOUNT_CPF);
+        
+                chai.expect(account).to.containSubset(EnumUnitTest(404).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('deleteAccount (INVALID_CPF)', async () => {
+                const account = await index.deleteAccount(EnumTestData.INVALID_CPF);
+        
+                chai.expect(account).to.containSubset(EnumUnitTest(404).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('deleteAccount (VALID_AND_NON_EXISTENT_ACCOUNT_CPF)', async () => {
+                const account = await index.deleteAccount(EnumTestData.VALID_AND_NON_EXISTENT_ACCOUNT_CPF);
         
                 chai.expect(account).to.containSubset(EnumUnitTest(404).RESPONSE_OBJECT_NO_DATA);
             });
