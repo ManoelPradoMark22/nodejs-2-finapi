@@ -44,6 +44,18 @@ describe('Teste das funções', () => {
     
             chai.expect(account).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_SUCCESS);
         });
+
+        it('listAllAccounts', async () => {
+            const accounts = await index.listAllAccounts();
+    
+            chai.expect(accounts).to.containSubset(EnumUnitTest(200).RESPONSE_ARRAY_OBJECT_SUCCESS);
+        });
+
+        it('getAccount', async () => {
+            const account = await index.getAccount(account1.cpf);
+    
+            chai.expect(account).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_SUCCESS);
+        });
     });
 
     describe('Failure', () => {
@@ -74,6 +86,18 @@ describe('Teste das funções', () => {
         describe('Not found (404)', () => {
             it('updateAccount', async () => {
                 const account = await index.updateAccount();
+        
+                chai.expect(account).to.containSubset(EnumUnitTest(404).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('getAccount (INVALID_CPF)', async () => {
+                const account = await index.getAccount(EnumTestData.INVALID_CPF);
+        
+                chai.expect(account).to.containSubset(EnumUnitTest(404).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('getAccount (VALID_AND_NON_EXISTENT_ACCOUNT_CPF)', async () => {
+                const account = await index.getAccount(EnumTestData.VALID_AND_NON_EXISTENT_ACCOUNT_CPF);
         
                 chai.expect(account).to.containSubset(EnumUnitTest(404).RESPONSE_OBJECT_NO_DATA);
             });
