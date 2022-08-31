@@ -16,7 +16,7 @@ function keyValueError(e, body, text){
         );
     }
     
-    return EnumObjectResponse.SERVER_ERROR;
+    throw EnumObjectResponse.SERVER_ERROR;
   }catch(e) {
     return EnumObjectResponse.SERVER_ERROR;
   }

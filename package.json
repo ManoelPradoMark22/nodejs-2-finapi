@@ -7,7 +7,8 @@
     "dev": "nodemon src/index.js",
     "test": "mocha",
     "test:int": "mocha test/integration",
-    "test:unit": "mocha test/unit/controllers --exit"
+    "test:unit": "mocha test/unit/controllers --exit",
+    "test:coverage": "nyc --reporter=html --reporter=text npm run test:unit"
   },
   "dependencies": {
     "cors": "2.8.5",
@@ -24,6 +25,14 @@
     "chai-subset": "1.6.0",
     "mocha": "10.0.0",
     "nodemon": "2.0.15",
+    "nyc": "15.1.0",
     "request": "2.88.2"
-  }
+  },
+  "nyc": {
+    "exclude": [
+      "config",
+      "src/models/index.js",
+      "test/**"
+    ]
+   }
 }
