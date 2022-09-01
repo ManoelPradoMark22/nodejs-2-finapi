@@ -44,6 +44,15 @@ module.exports = Enum({
     lastName: "Silva",
     email: "brunasilva@gmail.com",
     cellphone: "77991998771"
+  },
+  SUBSET_DATA_ACCOUNT: {
+    cpf: cpf => cpf,
+    email: email => email,
+    cellphone: cellphone => cellphone,
+    firstName: firstName => firstName,
+    lastName: lastName => lastName,
+    createdAt: createdAt => createdAt,
+    updatedAt: updatedAt => updatedAt
   }
 
 });

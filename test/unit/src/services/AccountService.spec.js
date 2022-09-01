@@ -2,15 +2,15 @@ const chai = require('chai');
 const http = require('chai-http'); // Extensão da lib chai p/ simular requisições http
 const subSet = require('chai-subset'); // Extensao da lib chai p/ verificar objetos
 
-const index = require('../../../src/services/AccountService'); // Arquivo a ser testado
-const EnumTestData = require('../../support/enum/EnumTestData');
-const EnumUnitTest = require('../../support/enum/EnumUnitTest');
-const RandomGenerate = require('../../support/util/RandomGenerate');
+const index = require('../../../../src/services/AccountService'); // Arquivo a ser testado
+const EnumTestData = require('../../../support/enum/EnumTestData');
+const EnumUnitTest = require('../../../support/enum/EnumUnitTest');
+const RandomGenerate = require('../../../support/util/RandomGenerate');
 
 chai.use(http);
 chai.use(subSet);
 
-describe('Teste das funções', () => {
+describe('services folder', () => {
 
     var account1;
     var account2;

@@ -7,7 +7,7 @@
     "dev": "nodemon src/index.js",
     "test": "mocha",
     "test:int": "mocha test/integration --exit",
-    "test:unit": "mocha test/unit/controllers --exit",
+    "test:unit": "mocha test/unit/src/controllers --exit",
     "test:coverage:int": "nyc --reporter=html --reporter=text npm run test:int",
     "test:coverage:unit": "nyc --reporter=html --reporter=text npm run test:unit"
   },
@@ -27,7 +27,8 @@
     "mocha": "10.0.0",
     "nodemon": "2.0.15",
     "nyc": "15.1.0",
-    "request": "2.88.2"
+    "request": "2.88.2",
+    "sinon": "14.0.0"
   },
   "nyc": {
     "exclude": [
@@ -35,5 +36,5 @@
       "src/models/index.js",
       "test/**"
     ]
-   }
+  }
 }
