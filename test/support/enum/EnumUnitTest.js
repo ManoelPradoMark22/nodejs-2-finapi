@@ -17,7 +17,7 @@ module.exports = (statusCode) => Enum({
       updatedAt: updatedAt => updatedAt
     },
   },
-  RESPONSE_ARRAY_OBJECT_SUCCESS: {
+  RESPONSE_OBJECT_SUCCESS_ARRAY_DATA: {
     name: name => name,
     httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
     message: message => message,
@@ -32,6 +32,12 @@ module.exports = (statusCode) => Enum({
         updatedAt: updatedAt => updatedAt
       }
     ]
+  },
+  RESPONSE_OBJECT_SUCCESS_EMPTY_ARRAY_DATA: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: []
   },
   RESPONSE_OBJECT_NO_DATA: {
     name: name => name,

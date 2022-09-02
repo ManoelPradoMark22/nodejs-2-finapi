@@ -4,6 +4,7 @@ const http = require('chai-http'); // Extensão da lib chai p/ simular requisiç
 const subSet = require('chai-subset'); // Extensao da lib chai p/ verificar objetos
 
 const index = require('../../../../src/controllers/AccountController'); // Arquivo a ser testado
+const Account = require('../../../../src/models/Account');
 const EnumTestData = require('../../../support/enum/EnumTestData');
 const EnumUnitTest = require('../../../support/enum/EnumUnitTest');
 const RandomGenerate = require('../../../support/util/RandomGenerate');
@@ -12,6 +13,10 @@ chai.use(http);
 chai.use(subSet);
 
 describe('controller folder', () => {
+
+    before(async () => {
+        await Account.deleteMany({});
+    });
 
     let status, json, res, req;
     beforeEach(() => {
@@ -34,6 +39,17 @@ describe('controller folder', () => {
     var account2;
 
     describe('Success', () => {
+
+        it('listAllAccounts (empty array)', async () => {
+            await index.listAllAccounts(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_SUCCESS_EMPTY_ARRAY_DATA);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+            chai.expect(json.args[0][0].data).to.eql([]);
+        });
 
         it('createAccount (1)', async () => {
             account1 = EnumTestData.BODY_FULL_POST_SUCCESS;
@@ -85,6 +101,16 @@ describe('controller folder', () => {
             chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
             chai.expect(json.args[0][0].data).to.be.an('object');
             chai.expect(json.args[0][0].data).to.containSubset(EnumTestData.SUBSET_DATA_ACCOUNT);
+        });
+
+        it('listAllAccounts', async () => {
+            await index.listAllAccounts(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_SUCCESS_ARRAY_DATA);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
         });
 
     });

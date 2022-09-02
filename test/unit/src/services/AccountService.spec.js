@@ -63,7 +63,7 @@ describe('services folder', () => {
         it('listAllAccounts', async () => {
             const accounts = await index.listAllAccounts();
     
-            chai.expect(accounts).to.containSubset(EnumUnitTest(200).RESPONSE_ARRAY_OBJECT_SUCCESS);
+            chai.expect(accounts).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_SUCCESS_ARRAY_DATA);
         });
 
         it('getAccount', async () => {
