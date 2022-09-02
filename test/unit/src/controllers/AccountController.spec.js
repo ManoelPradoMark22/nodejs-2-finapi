@@ -27,12 +27,17 @@ describe('controller folder', () => {
                 cpf: cpf => cpf
             }
         }
-      });
+    });
+
+
+    var account1;
+    var account2;
 
     describe('Success', () => {
 
-        it('createAccount', async () => {
-            req.body = EnumTestData.BODY_FULL_POST_SUCCESS;
+        it('createAccount (1)', async () => {
+            account1 = EnumTestData.BODY_FULL_POST_SUCCESS;
+            req.body = account1;
 
             await index.createAccount(req, res);
             
@@ -41,6 +46,43 @@ describe('controller folder', () => {
             chai.expect(json.calledOnce).to.be.true;
             chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(201).RESPONSE_OBJECT_SUCCESS);
             chai.expect(json.args[0][0].httpStatusCode).to.equal(201);
+            chai.expect(json.args[0][0].data).to.be.an('object');
+            chai.expect(json.args[0][0].data).to.containSubset(EnumTestData.SUBSET_DATA_ACCOUNT);
+        });
+
+        it('createAccount (2)', async () => {
+            account2 = {
+                firstName: RandomGenerate.name(),
+                lastName: RandomGenerate.name(),
+                cpf: RandomGenerate.cpf(),
+                email: RandomGenerate.email(),
+                cellphone: RandomGenerate.cellphone()
+            };
+            req.body = account2;
+
+            await index.createAccount(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(201);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(201).RESPONSE_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(201);
+            chai.expect(json.args[0][0].data).to.be.an('object');
+            chai.expect(json.args[0][0].data).to.containSubset(EnumTestData.SUBSET_DATA_ACCOUNT);
+        });
+
+        it('updateAccount', async () => {
+            const { cpf } = account2;
+            req.body = EnumTestData.BODY_FULL_PUT_SUCCESS;
+            req.headers.cpf = cpf;
+
+            await index.updateAccount(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
             chai.expect(json.args[0][0].data).to.be.an('object');
             chai.expect(json.args[0][0].data).to.containSubset(EnumTestData.SUBSET_DATA_ACCOUNT);
         });
