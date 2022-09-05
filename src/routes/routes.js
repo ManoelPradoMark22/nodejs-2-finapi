@@ -42,6 +42,7 @@ router.post("/statement", StatementSchema.validateBodyStatement,
 router.use(ModelMiddlewares.checkCpfExistsInStatements);
 router.delete("/statement", 
 (req, res) => StatementController.deleteAllStatementsByCpf(req, res));
+router.get("/full-dashboard", (req, res) => StatementController.listFullDashboardByCpf(req, res));
 router.get("/statement", (req, res) => StatementController.listStatementsByCpf(req, res));
 
 router.get("/balance", (req, res) => StatementController.getBalanceByCpf(req, res));

@@ -17,6 +17,15 @@ async function listAllStatements(req, res) {
     return res.status(httpStatusCode).json(allStatements);
 }
 
+async function listFullDashboardByCpf(req, res) {
+    const { cpf } = req.headers;
+
+    const statements = await StatementService.listFullDashboardByCpf(cpf);
+    const { httpStatusCode } = statements;
+
+    return res.status(httpStatusCode).json(statements);
+}
+
 async function listStatementsByCpf(req, res) {
     const { cpf } = req.headers;
 
@@ -56,6 +65,7 @@ async function deleteAllStatementsByCpf(req, res) {
 module.exports = { 
     createStatement,
     listAllStatements,
+    listFullDashboardByCpf,
     listStatementsByCpf,
     getBalanceByCpf,
     getCategoryBalanceByCpf,
