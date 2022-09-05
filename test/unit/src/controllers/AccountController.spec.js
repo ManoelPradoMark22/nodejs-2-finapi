@@ -113,6 +113,29 @@ describe('controller folder', () => {
             chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
         });
 
+        it('getAccount', async () => {
+            const { cpf } = account2;
+            req.headers.cpf = cpf;
+            await index.getAccount(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+        });
+
+        it('deleteAccount', async () => {
+            const { cpf } = account2;
+            req.headers.cpf = cpf;
+            await index.deleteAccount(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_NO_DATA);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+        });
     });
 
     describe('Failure', () => {
