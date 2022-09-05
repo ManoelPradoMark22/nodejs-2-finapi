@@ -14,6 +14,11 @@ module.exports = Enum({
     404,
     EnumMessages.ACCOUNT_NOT_FOUND
   ),
+  STATEMENTS_NOT_FOUND: ObjectResponse(
+    EnumMessages.ERROR_NOT_FOUND_NAME, 
+    404,
+    EnumMessages.STATEMENTS_NOT_FOUND
+  ),
   CATEGORY_NOT_FOUND: ObjectResponse(
     EnumMessages.ERROR_NOT_FOUND_NAME,
     404,
