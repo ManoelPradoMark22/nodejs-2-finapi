@@ -1,9 +1,11 @@
 const chai = require('chai');
+const sinon = require("sinon");
 const http = require('chai-http'); // Extensão da lib chai p/ simular requisições http
 const subSet = require('chai-subset'); // Extensao da lib chai p/ verificar objetos
 
 const index = require('../../../../src/services/AccountService'); // Arquivo a ser testado
 const Account = require('../../../../src/models/Account');
+const MongoConnection = require('../../../../src/database/MongoConnection');
 const EnumTestData = require('../../../support/enum/EnumTestData');
 const EnumUnitTest = require('../../../support/enum/EnumUnitTest');
 const RandomGenerate = require('../../../support/util/RandomGenerate');
@@ -92,7 +94,12 @@ describe('services folder', () => {
                 chai.expect(account).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
             });
 
-
+            it('listAllAccounts', async () => {
+                await MongoConnection.disconnect();
+                const accounts = await sinon.stub(index.listAllAccounts('adsda'));
+                await MongoConnection.connect();
+                chai.expect(accounts).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
+            });
         });
         describe('Duplicated key (406)', () => {
             it('createAccount', async () => {
