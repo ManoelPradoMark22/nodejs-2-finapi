@@ -79,8 +79,8 @@ async function deleteAccount(cpf) {
             const existingStatement = await StatementModel.findOne({ accountCpf: cpf });
 
             if(existingStatement) {
-                const deletedAccount = await StatementModel.deleteMany( { accountCpf: cpf } );
-                const { acknowledged } = deletedAccount;
+                const deletedStatements = await StatementModel.deleteMany( { accountCpf: cpf } );
+                const { acknowledged } = deletedStatements;
                 if(!acknowledged) return ObjectResponse(
                     EnumMessages.SUCCESS_NAME,
                     200,

@@ -4,7 +4,9 @@ const http = require('chai-http'); // Extensão da lib chai p/ simular requisiç
 const subSet = require('chai-subset'); // Extensao da lib chai p/ verificar objetos
 
 const index = require('../../../../src/services/AccountService'); // Arquivo a ser testado
+const StatementService = require('../../../../src/services/StatementService');
 const Account = require('../../../../src/models/Account');
+const Statement = require('../../../../src/models/Statement');
 const MongoConnection = require('../../../../src/database/MongoConnection');
 const EnumTestData = require('../../../support/enum/EnumTestData');
 const EnumUnitTest = require('../../../support/enum/EnumUnitTest');
@@ -17,11 +19,14 @@ describe('services folder', () => {
 
     before(async () => {
         await Account.deleteMany({});
+        await Statement.deleteMany({});
     });
 
     var account1;
     var account2;
     var account3;
+    var account4;
+    var account5;
 
     describe('Success', () => {
 
@@ -61,6 +66,34 @@ describe('services folder', () => {
             chai.expect(account).to.containSubset(EnumUnitTest(201).RESPONSE_OBJECT_SUCCESS);
         });
 
+        it('createAccount (4)', async () => {
+            account4 = {
+                firstName: RandomGenerate.name(),
+                lastName: RandomGenerate.name(),
+                cpf: RandomGenerate.cpf(),
+                email: RandomGenerate.email(),
+                cellphone: RandomGenerate.cellphone()
+            };
+
+            const account = await index.createAccount(account4);
+
+            chai.expect(account).to.containSubset(EnumUnitTest(201).RESPONSE_OBJECT_SUCCESS);
+        });
+
+        it('createAccount (5)', async () => {
+            account5 = {
+                firstName: RandomGenerate.name(),
+                lastName: RandomGenerate.name(),
+                cpf: RandomGenerate.cpf(),
+                email: RandomGenerate.email(),
+                cellphone: RandomGenerate.cellphone()
+            };
+
+            const account = await index.createAccount(account5);
+
+            chai.expect(account).to.containSubset(EnumUnitTest(201).RESPONSE_OBJECT_SUCCESS);
+        });
+
         it('updateAccount', async () => {
             const account = await index.updateAccount(EnumTestData.BODY_FULL_PUT_SUCCESS, account1.cpf);
     
@@ -84,6 +117,29 @@ describe('services folder', () => {
     
             chai.expect(account).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_NO_DATA);
         });
+
+        it('deleteAccount (and statements)', async () => {
+            try {
+                const bodyStatement = {
+                    description: "Nintendo giftcard",
+                    amount: 150,
+                    type: "credit",
+                    keyCategory: "leisure"
+                }
+
+                for(let i=0; i<3; i++) {
+                    const statement = await StatementService.createStatement(bodyStatement, account4.cpf);
+                    const { httpStatusCode } = statement;
+                    if(httpStatusCode!==201) return chai.expect.fail('error when create statement')
+                }
+    
+                const account = await index.deleteAccount(account4.cpf);
+        
+                chai.expect(account).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_NO_DATA);
+            }catch(err) {
+                chai.expect.fail('error deleteAccount test')
+            }
+        });
     });
 
     describe('Failure', () => {
@@ -99,6 +155,18 @@ describe('services folder', () => {
                 const accounts = await sinon.stub(index.listAllAccounts('adsda'));
                 await MongoConnection.connect();
                 chai.expect(accounts).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('getAccount', async () => {
+                const account = await index.getAccount([{}, '']);
+        
+                chai.expect(account).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('deleteAccount', async () => {
+                const account = await index.deleteAccount([{}, '']);
+        
+                chai.expect(account).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
             });
         });
         describe('Duplicated key (406)', () => {
