@@ -15,7 +15,7 @@ const RandomGenerate = require('../../../support/util/RandomGenerate');
 chai.use(http);
 chai.use(subSet);
 
-describe('services folder', () => {
+describe('AccountService.js [services]', () => {
 
     before(async () => {
         await Account.deleteMany({});

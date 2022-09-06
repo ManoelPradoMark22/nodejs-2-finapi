@@ -1,7 +1,7 @@
 const StatementModel = require('../models/Statement');
 const AccountModel = require('../models/Account');
 const CategoryModel = require('../models/Category');
-const CategorieService = require('../services/CategorieService');
+const CategoryService = require('../services/CategoryService');
 const EnumTransactionTypes = require('../support/enum/EnumTransactionTypes');
 const EnumMessages = require('../support/enum/EnumMessages');
 const EnumObjectResponse = require('../support/enum/EnumObjectResponse');
@@ -48,7 +48,7 @@ async function listFullDashboardByCpf(cpf) {
     try{
         const { data: statements } = await listStatementsByCpf(cpf);
         const { data: balance } = await getBalanceByCpf(cpf);
-        const { data: categories } = await CategorieService.listAllCategories();
+        const { data: categories } = await CategoryService.listAllCategories();
 
         return ObjectResponse(
             EnumMessages.SUCCESS_NAME,

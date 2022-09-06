@@ -53,6 +53,11 @@ module.exports = Enum({
     lastName: lastName => lastName,
     createdAt: createdAt => createdAt,
     updatedAt: updatedAt => updatedAt
+  },
+  SUBSET_DATA_CATEGORY  : {
+    key: key => key,
+    name: name => name,
+    icon: icon => icon
   }
 
 });

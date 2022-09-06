@@ -2,7 +2,7 @@ const cors = require('cors');
 const { router, app } = require("../config/app/AppConfig");
 const AccountController = require('../controllers/AccountController');
 const StatementController = require('../controllers/StatementController');
-const CategorieController = require('../controllers/CategorieController');
+const CategoryController = require('../controllers/CategoryController');
 const ModelMiddlewares = require('../middlewares/ModelMiddlewares');
 const AccountSchema  = require('../support/schema/AccountSchema');
 const StatementSchema  = require('../support/schema/StatementSchema');
@@ -17,15 +17,15 @@ router.post("/account", AccountSchema.validateBodyPOSTaccount, (req, res) => Acc
 router.get("/all-accounts", (req, res) => AccountController.listAllAccounts(req, res));
 router.get("/all-statements", (req, res) => StatementController.listAllStatements(req, res));
 
-router.get("/all-categories", (req, res) => CategorieController.listAllCategories(req, res));
+router.get("/all-categories", (req, res) => CategoryController.listAllCategories(req, res));
 router.post("/category", 
   CategorieSchema.validateBodyPOSTCategory, 
-  (req, res) => CategorieController.createCategory(req, res)
+  (req, res) => CategoryController.createCategory(req, res)
 );
 router.put("/category", 
   HeaderSchema.validateHeaderKey, 
   CategorieSchema.validateBodyPUTCategory, 
-  (req, res) => CategorieController.updateCategory(req, res)
+  (req, res) => CategoryController.updateCategory(req, res)
 );
 
 router.use(HeaderSchema.validateHeaderCpf);

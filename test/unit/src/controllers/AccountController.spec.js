@@ -12,7 +12,7 @@ const RandomGenerate = require('../../../support/util/RandomGenerate');
 chai.use(http);
 chai.use(subSet);
 
-describe('controller folder', () => {
+describe('AccountController.js [controllers]', () => {
 
     before(async () => {
         await Account.deleteMany({});
