@@ -7,7 +7,7 @@
     "dev": "nodemon src/index.js",
     "test": "mocha",
     "test:int": "mocha test/integration --exit",
-    "test:unit": "mocha test/unit/src/controllers --exit",
+    "test:unit": "mocha test/unit/**/*.spec.js --exit",
     "test:coverage:int": "nyc --reporter=html --reporter=text npm run test:int",
     "test:coverage:unit": "nyc --reporter=html --reporter=text npm run test:unit"
   },

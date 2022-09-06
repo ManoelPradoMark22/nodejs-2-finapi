@@ -3,6 +3,7 @@ const http = require('chai-http'); // Extensão da lib chai p/ simular requisiç
 const subSet = require('chai-subset'); // Extensao da lib chai p/ verificar objetos
 
 const index = require('../../../../src/services/AccountService'); // Arquivo a ser testado
+const Account = require('../../../../src/models/Account');
 const EnumTestData = require('../../../support/enum/EnumTestData');
 const EnumUnitTest = require('../../../support/enum/EnumUnitTest');
 const RandomGenerate = require('../../../support/util/RandomGenerate');
@@ -11,6 +12,10 @@ chai.use(http);
 chai.use(subSet);
 
 describe('services folder', () => {
+
+    before(async () => {
+        await Account.deleteMany({});
+    });
 
     var account1;
     var account2;
