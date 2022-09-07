@@ -120,18 +120,16 @@ describe('AccountService.js [services]', () => {
 
         it('deleteAccount (and statements)', async () => {
             try {
-                const bodyStatement = {
-                    description: "Nintendo giftcard",
-                    amount: 150,
-                    type: "credit",
-                    keyCategory: "leisure"
-                }
+                
+/*
+                const bodyStatement = EnumTestData.BODY_FULL_POST_STATEMENT_SUCCESS;
 
                 for(let i=0; i<3; i++) {
                     const statement = await StatementService.createStatement(bodyStatement, account4.cpf);
                     const { httpStatusCode } = statement;
                     if(httpStatusCode!==201) return chai.expect.fail('error when create statement')
                 }
+*/
     
                 const account = await index.deleteAccount(account4.cpf);
         

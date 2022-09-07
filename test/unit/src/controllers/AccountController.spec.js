@@ -52,7 +52,7 @@ describe('AccountController.js [controllers]', () => {
         });
 
         it('createAccount (1)', async () => {
-            account1 = EnumTestData.BODY_FULL_POST_SUCCESS;
+            account1 = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED;
             req.body = account1;
 
             await index.createAccount(req, res);

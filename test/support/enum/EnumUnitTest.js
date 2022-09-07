@@ -66,5 +66,29 @@ module.exports = (statusCode) => Enum({
       }
     ],
   },
+  RESPONSE_STATEMENT_OBJECT_SUCCESS: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: {
+        "description": description => description,
+        "amount": amount => amount,
+        "type": type => type,
+        "keyCategory": keyCategory => keyCategory
+    },
+  },
+  RESPONSE_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: [
+      {
+        "description": description => description,
+        "amount": amount => amount,
+        "type": type => type,
+        "keyCategory": keyCategory => keyCategory
+      }
+    ],
+  },
 
 });

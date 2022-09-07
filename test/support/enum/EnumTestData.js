@@ -26,6 +26,13 @@ module.exports = Enum({
     email: RandomGenerate.email(),
     cellphone: RandomGenerate.cellphone()
   },
+  BODY_FULL_POST_SUCCESS_FIXED: {
+    firstName: "Manoel de Oliveira",
+    lastName: "Prado Neto",
+    cpf: "06350390520",
+    email: 'manoelprado.aecjr@gmail.com',
+    cellphone: '77991998770'
+  },
   BODY_FULL_POST_DUPLICATED_KEY: {
     firstName: "Bruna",
     lastName: "Silva",
@@ -44,6 +51,12 @@ module.exports = Enum({
     lastName: "Silva",
     email: "brunasilva@gmail.com",
     cellphone: "77991998771"
+  },
+  BODY_FULL_POST_STATEMENT_SUCCESS: {
+    description: "Nintendo giftcard",
+    amount: 150,
+    type: "credit",
+    keyCategory: "leisure"
   },
   SUBSET_DATA_ACCOUNT: {
     cpf: cpf => cpf,
