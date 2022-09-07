@@ -1,3 +1,8 @@
+const dog = {cachorro: 'mpe'};
+const { sexo: margarita } = dog;
+console.log(margarita)
+
+
 const target = { "id": "1", "name": "mango", "color": "yellow"};
 console.log(JSON.stringify(Object.entries(target)));
 

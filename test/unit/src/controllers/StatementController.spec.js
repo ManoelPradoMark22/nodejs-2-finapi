@@ -42,6 +42,19 @@ describe('StatementController.js [controllers]', () => {
             chai.expect(json.args[0][0].data).to.eql([]);
         });
 
+        it('listFullDashboardByCpf (empty statement array)', async () => {
+            req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
+
+            await index.listFullDashboardByCpf(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_DASHBOARD_STATEMENT_EMPTY_OBJECT_SUCCESS_ARRAY_DATA);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+            chai.expect(json.args[0][0].data.statements).to.eql([]);
+        });
+
         for(let i=0; i<3; i++) {
             it('createStatement', async () => {
                 req.body = EnumTestData.BODY_FULL_POST_STATEMENT_SUCCESS;
@@ -64,6 +77,18 @@ describe('StatementController.js [controllers]', () => {
             chai.expect(status.args[0][0]).to.equal(200);
             chai.expect(json.calledOnce).to.be.true;
             chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+        });
+
+        it('listFullDashboardByCpf', async () => {
+            req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
+
+            await index.listFullDashboardByCpf(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_DASHBOARD_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
             chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
         });
     });

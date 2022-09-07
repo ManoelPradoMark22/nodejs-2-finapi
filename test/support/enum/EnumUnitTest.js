@@ -1,4 +1,5 @@
 const Enum = require('./Enum');
+const EnumTestData = require('./EnumTestData');
 const RandomGenerate = require('../util/RandomGenerate');
 
 module.exports = (statusCode) => Enum({
@@ -70,25 +71,35 @@ module.exports = (statusCode) => Enum({
     name: name => name,
     httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
     message: message => message,
-    data: {
-        "description": description => description,
-        "amount": amount => amount,
-        "type": type => type,
-        "keyCategory": keyCategory => keyCategory
-    },
+    data: EnumTestData.SUBSET_DATA_STATEMENT,
   },
   RESPONSE_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA: {
     name: name => name,
     httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
     message: message => message,
     data: [
-      {
-        "description": description => description,
-        "amount": amount => amount,
-        "type": type => type,
-        "keyCategory": keyCategory => keyCategory
-      }
+      EnumTestData.SUBSET_DATA_STATEMENT
     ],
   },
+  RESPONSE_FULL_DASHBOARD_STATEMENT_EMPTY_OBJECT_SUCCESS_ARRAY_DATA: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: {
+      statements: [],
+      balance: EnumTestData.EMPTY_BALANCE_STATEMENT,
+      categories: [ EnumTestData.SUBSET_DATA_CATEGORY ]
+    }
+  },
+  RESPONSE_FULL_DASHBOARD_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: {
+      statements: [ EnumTestData.SUBSET_DATA_STATEMENT ],
+      balance: EnumTestData.SUBSET_BALANCE_STATEMENT,
+      categories: [ EnumTestData.SUBSET_DATA_CATEGORY ]
+    }
+  }
 
 });

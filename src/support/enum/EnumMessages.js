@@ -9,6 +9,8 @@ module.exports = Enum({
   ACCOUNT_NOT_FOUND: "Account not found!",
   STATEMENTS_NOT_FOUND: "Statements not found!",
   CATEGORY_NOT_FOUND: "Category not found!",
+
+  FAILED_TO_GET_BALANCE: "Failed to get balance",
   
   INVALID_CPF: "Invalid cpf!",
   MISSING_CPF: "Cpf is required!",

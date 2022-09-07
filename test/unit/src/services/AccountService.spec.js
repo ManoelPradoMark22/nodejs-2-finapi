@@ -19,7 +19,6 @@ describe('AccountService.js [services]', () => {
 
     before(async () => {
         await Account.deleteMany({});
-        await Statement.deleteMany({});
     });
 
     var account1;

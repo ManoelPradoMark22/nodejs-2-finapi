@@ -15,8 +15,8 @@ async function checkCpfExistsInAccount(req, res, next){
 async function checkCpfExistsInStatements(req, res, next){
   try {
     const { cpf } = req.headers;
-    const existingAccount = await StatementModel.findOne({ accountCpf: cpf });
-    return existingAccount ? next() : res.status(404).json(EnumObjectResponse.STATEMENTS_NOT_FOUND);
+    const existingStatement = await StatementModel.findOne({ accountCpf: cpf });
+    return existingStatement ? next() : res.status(404).json(EnumObjectResponse.STATEMENTS_NOT_FOUND);
   }catch (e) {
     return res.status(500).json(EnumObjectResponse.SERVER_ERROR);
   }

@@ -18,7 +18,6 @@ module.exports = Enum({
     'createdAt',
     'updatedAt'
   ],
-
   BODY_FULL_POST_SUCCESS: {
     firstName: RandomGenerate.name(),
     lastName: RandomGenerate.name(),
@@ -55,7 +54,7 @@ module.exports = Enum({
   BODY_FULL_POST_STATEMENT_SUCCESS: {
     description: "Nintendo giftcard",
     amount: 150,
-    type: "credit",
+    type: "negative",
     keyCategory: "leisure"
   },
   SUBSET_DATA_ACCOUNT: {
@@ -67,10 +66,26 @@ module.exports = Enum({
     createdAt: createdAt => createdAt,
     updatedAt: updatedAt => updatedAt
   },
-  SUBSET_DATA_CATEGORY  : {
+  SUBSET_DATA_CATEGORY: {
     key: key => key,
     name: name => name,
     icon: icon => icon
+  },
+  SUBSET_DATA_STATEMENT: {
+    description: description => description,
+    amount: amount => amount,
+    type: type => type,
+    keyCategory: keyCategory => keyCategory
+  },
+  EMPTY_BALANCE_STATEMENT: {
+    total: 0,
+    inflow: 0,
+    outflow: 0
+  },
+  SUBSET_BALANCE_STATEMENT: {
+    total: total => typeof total ==='number',
+    inflow: inflow => typeof inflow ==='number',
+    outflow: outflow => typeof outflow ==='number'
   }
 
 });

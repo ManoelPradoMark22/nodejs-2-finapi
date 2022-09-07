@@ -46,9 +46,17 @@ async function listAllStatements() {
 
 async function listFullDashboardByCpf(cpf) {
     try{
-        const { data: statements } = await listStatementsByCpf(cpf);
-        const { data: balance } = await getBalanceByCpf(cpf);
-        const { data: categories } = await CategoryService.listAllCategories();
+        const responseStatements = await listStatementsByCpf(cpf);
+        const { data: statements } = responseStatements;
+        if(!statements) return EnumObjectResponse.STATEMENTS_NOT_FOUND;
+        
+        const responseCategories = await CategoryService.listAllCategories();
+        const { data: categories } = responseCategories;
+        if(!categories) return EnumObjectResponse.CATEGORY_NOT_FOUND;
+
+        const responseBalance = await getBalanceByCpf(cpf);
+        const { data: balance } = responseBalance;
+        if(!balance) return EnumObjectResponse.FAILED_TO_GET_BALANCE;
 
         return ObjectResponse(
             EnumMessages.SUCCESS_NAME,
