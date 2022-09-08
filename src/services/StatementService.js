@@ -75,7 +75,7 @@ async function listFullDashboardByCpf(cpf) {
 
 async function listStatementsByCpf(cpf) {
     try{
-        const statements = await StatementModel.find({ accountCpf: cpf });
+        const statements = await StatementModel.find({ accountCpf: cpf }).sort({ createdAt: -1 });
         return ObjectResponse(
             EnumMessages.SUCCESS_NAME,
             200,
