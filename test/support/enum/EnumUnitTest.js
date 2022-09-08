@@ -71,7 +71,7 @@ module.exports = (statusCode) => Enum({
     name: name => name,
     httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
     message: message => message,
-    data: EnumTestData.SUBSET_DATA_STATEMENT,
+    data: data => EnumTestData.SUBSET_DATA_STATEMENT,
   },
   RESPONSE_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA: {
     name: name => name,
@@ -99,6 +99,24 @@ module.exports = (statusCode) => Enum({
       statements: [ EnumTestData.SUBSET_DATA_STATEMENT ],
       balance: EnumTestData.SUBSET_BALANCE_STATEMENT,
       categories: [ EnumTestData.SUBSET_DATA_CATEGORY ]
+    }
+  },
+  RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_ARRAY_DATA_EMPTY: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: {
+      inflow: [],
+      outflow: []
+    }
+  },
+  RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_ARRAY_DATA_SUCCESS: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: {
+      inflow: [ inflow => EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
+      outflow: [ outflow => EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
     }
   }
 

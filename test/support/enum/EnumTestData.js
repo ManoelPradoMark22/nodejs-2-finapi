@@ -86,6 +86,10 @@ module.exports = Enum({
     total: total => typeof total ==='number',
     inflow: inflow => typeof inflow ==='number',
     outflow: outflow => typeof outflow ==='number'
+  },
+  SUBSET_BALANCE_BY_CATEGORY: {
+    keyCategory: keyCategory => keyCategory,
+    amount: amount => amount
   }
 
 });

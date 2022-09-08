@@ -55,9 +55,28 @@ describe('StatementController.js [controllers]', () => {
             chai.expect(json.args[0][0].data.statements).to.eql([]);
         });
 
-        for(let i=0; i<3; i++) {
+        it('getCategoryBalanceByCpf (empty arrays)', async () => {
+            req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
+
+            await index.getCategoryBalanceByCpf(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_ARRAY_DATA_EMPTY);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+            chai.expect(json.args[0][0].data.inflow).to.eql([]);
+            chai.expect(json.args[0][0].data.outflow).to.eql([]);
+        });
+
+        for(let i=0; i<4; i++) {
             it('createStatement', async () => {
-                req.body = EnumTestData.BODY_FULL_POST_STATEMENT_SUCCESS;
+                req.body = {
+                    description: "Nintendo giftcard",
+                    amount: 150,
+                    type: i%2 === 0 ? "negative" : "positive", //cadastrando entrada e saída
+                    keyCategory: "leisure"
+                };
                 req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
     
                 await index.createStatement(req, res);
@@ -80,6 +99,42 @@ describe('StatementController.js [controllers]', () => {
             chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
         });
 
+        it('listStatementsByCpf', async () => {
+            req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
+
+            await index.listStatementsByCpf(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+        });
+
+        it('getBalanceByCpf', async () => {
+            req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
+
+            await index.getBalanceByCpf(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+        });
+
+        it('getCategoryBalanceByCpf', async () => {
+            req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
+
+            await index.getCategoryBalanceByCpf(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+        });
+
         it('listFullDashboardByCpf', async () => {
             req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
 
@@ -89,6 +144,18 @@ describe('StatementController.js [controllers]', () => {
             chai.expect(status.args[0][0]).to.equal(200);
             chai.expect(json.calledOnce).to.be.true;
             chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_DASHBOARD_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+        });
+
+        it('deleteAllStatementsByCpf', async () => {
+            req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
+
+            await index.deleteAllStatementsByCpf(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_NO_DATA);
             chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
         });
     });

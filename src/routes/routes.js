@@ -38,13 +38,13 @@ router.delete("/account", (req, res) => AccountController.deleteAccount(req, res
 router.post("/statement", StatementSchema.validateBodyStatement, 
 (req, res) => StatementController.createStatement(req, res));
 
+router.use(ModelMiddlewares.checkCpfExistsInAccount);
 router.get("/full-dashboard", (req, res) => StatementController.listFullDashboardByCpf(req, res));
 router.get("/statement", (req, res) => StatementController.listStatementsByCpf(req, res));
-
-router.use(ModelMiddlewares.checkCpfExistsInStatements);
-router.delete("/statement", 
-(req, res) => StatementController.deleteAllStatementsByCpf(req, res));
 router.get("/balance", (req, res) => StatementController.getBalanceByCpf(req, res));
 router.get("/full-balance", (req, res) => StatementController.getCategoryBalanceByCpf(req, res));
+
+router.delete("/statement", ModelMiddlewares.checkCpfExistsInStatements,
+(req, res) => StatementController.deleteAllStatementsByCpf(req, res));
 
 module.exports = router;
