@@ -120,21 +120,19 @@ describe('AccountService.js [services]', () => {
         it('deleteAccount (and statements)', async () => {
             try {
                 
-/*
                 const bodyStatement = EnumTestData.BODY_FULL_POST_STATEMENT_SUCCESS;
 
                 for(let i=0; i<3; i++) {
                     const statement = await StatementService.createStatement(bodyStatement, account4.cpf);
                     const { httpStatusCode } = statement;
-                    if(httpStatusCode!==201) return chai.expect.fail('error when create statement')
+                    if(httpStatusCode!==201) return chai.expect.fail('error when creating statements to test full deletion account')
                 }
-*/
     
                 const account = await index.deleteAccount(account4.cpf);
         
                 chai.expect(account).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_NO_DATA);
             }catch(err) {
-                chai.expect.fail('error deleteAccount test')
+                chai.expect.fail('error deleteAccount test');
             }
         });
     });
