@@ -30,7 +30,7 @@ describe('AccountService.js [services]', () => {
     describe('Success', () => {
 
         it('createAccount (1)', async () => {
-            account1 = EnumTestData.BODY_FULL_POST_SUCCESS;
+            account1 = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED;
 
             const account = await index.createAccount(account1);
 
