@@ -57,6 +57,12 @@ module.exports = Enum({
     type: "negative",
     keyCategory: "leisure"
   },
+  BODY_FULL_POST_STATEMENT_CATEGORY_NOT_FOUND: {
+    description: "Nintendo giftcard",
+    amount: 150,
+    type: "negative",
+    keyCategory: "ssssssss"
+  },
   SUBSET_DATA_ACCOUNT: {
     cpf: cpf => cpf,
     email: email => email,

@@ -45,32 +45,28 @@ async function listAllStatements() {
 }
 
 async function listFullDashboardByCpf(cpf) {
-    try{
-        const responseStatements = await listStatementsByCpf(cpf);
-        const { data: statements } = responseStatements;
-        if(!statements) return EnumObjectResponse.STATEMENTS_NOT_FOUND;
-        
-        const responseCategories = await CategoryService.listAllCategories();
-        const { data: categories } = responseCategories;
-        if(!categories) return EnumObjectResponse.CATEGORY_NOT_FOUND;
+    const responseStatements = await listStatementsByCpf(cpf);
+    const { data: statements } = responseStatements;
+    if(!statements) return responseStatements;
+    
+    const responseCategories = await CategoryService.listAllCategories();
+    const { data: categories } = responseCategories;
+    if(!categories) return responseCategories;
 
-        const responseBalance = await getBalanceByCpf(cpf);
-        const { data: balance } = responseBalance;
-        if(!balance) return EnumObjectResponse.FAILED_TO_GET_BALANCE;
+    const responseBalance = await getBalanceByCpf(cpf);
+    const { data: balance } = responseBalance;
+    if(!balance) return responseBalance;
 
-        return ObjectResponse(
-            EnumMessages.SUCCESS_NAME,
-            200,
-            EnumMessages.SUCCESS_GET_STATEMENTS,
-            {
-                statements: statements,
-                balance: balance,
-                categories: categories
-            }
-        );
-    }catch(e) {
-        return EnumObjectResponse.SERVER_ERROR;
-    }
+    return ObjectResponse(
+        EnumMessages.SUCCESS_NAME,
+        200,
+        EnumMessages.SUCCESS_GET_STATEMENTS,
+        {
+            statements: statements,
+            balance: balance,
+            categories: categories
+        }
+    );
 }
 
 async function listStatementsByCpf(cpf) {
@@ -159,20 +155,18 @@ async function getCategoryBalanceByCpf(cpf) {
 
 async function deleteAllStatementsByCpf(cpf) {
     try{
-        const deletedAccount = await StatementModel.deleteMany( { accountCpf: cpf } );
+        const existingStatement = await StatementModel.findOne({ accountCpf: cpf });
 
-        const { acknowledged, deletedCount } = deletedAccount;
+        if (!existingStatement) return EnumObjectResponse.STATEMENTS_NOT_FOUND;
 
-        if(acknowledged) return ObjectResponse(
+        const deletedStatements = await StatementModel.deleteMany( { accountCpf: cpf } );
+
+        const { deletedCount } = deletedStatements;
+
+        return ObjectResponse(
             EnumMessages.SUCCESS_NAME,
             200,
             `${deletedCount} ${EnumMessages.N_STATEMENTS_DELETED}`
-        );
-
-        return ObjectResponse(
-            EnumMessages.ERROR_NOT_FOUND_NAME,
-            404,
-            EnumMessages.STATEMENTS_NOT_FOUND
         );
     }catch(e) {
         return EnumObjectResponse.SERVER_ERROR;

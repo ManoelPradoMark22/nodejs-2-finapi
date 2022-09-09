@@ -21,11 +21,27 @@ describe('StatementService.js [services]', () => {
 
     describe('Success', () => {
 
-        it('createStatement', async () => {
-            const statement = await index.createStatement(EnumTestData.BODY_FULL_POST_STATEMENT_SUCCESS, EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+        it('getBalanceByCpf (fields ZERO)', async () => {
+            const statements = await index.getBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
 
-            chai.expect(statement).to.containSubset(EnumUnitTest(201).RESPONSE_STATEMENT_OBJECT_SUCCESS);
+            chai.expect(statements).to.containSubset(EnumUnitTest(200).RESPONSE_BALANCE_STATEMENT_ARRAY_DATA_ZERO);
         });
+
+        for(let i=0; i<4; i++) {
+            it(`createStatement (${i+1})`, async () => {
+                const statement = await index.createStatement(
+                    {
+                        description: "Nintendo giftcard",
+                        amount: 150,
+                        type: i%2 === 0 ? "negative" : "positive", //cadastrando entrada e saída
+                        keyCategory: "leisure"
+                    }, 
+                    EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf
+                );
+    
+                chai.expect(statement).to.containSubset(EnumUnitTest(201).RESPONSE_STATEMENT_OBJECT_SUCCESS);
+            });
+        }
 
         it('listAllStatements', async () => {
             const statements = await index.listAllStatements();
@@ -40,9 +56,27 @@ describe('StatementService.js [services]', () => {
         });
 
         it('listFullDashboardByCpf', async () => {
-            const statements = await index.listFullDashboardByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+            const fullDashboard = await index.listFullDashboardByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
 
-            chai.expect(statements).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_DASHBOARD_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
+            chai.expect(fullDashboard).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_DASHBOARD_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
+        });
+
+        it('getBalanceByCpf', async () => {
+            const balance = await index.getBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+
+            chai.expect(balance).to.containSubset(EnumUnitTest(200).RESPONSE_BALANCE_STATEMENT_ARRAY_DATA_SUCCESS);
+        });
+
+        it('getCategoryBalanceByCpf', async () => {
+            const fullBalance = await index.getCategoryBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+
+            chai.expect(fullBalance).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_ARRAY_DATA_SUCCESS);
+        });
+
+        it('deleteAllStatementsByCpf', async () => {
+            const response = await index.deleteAllStatementsByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+
+            chai.expect(response).to.containSubset(EnumUnitTest(200).RESPONSE_OBJECT_NO_DATA);
         });
 
     });
@@ -50,45 +84,85 @@ describe('StatementService.js [services]', () => {
     describe('Failure', () => {
         describe('ServerError (500)', () => {
             it('createStatement', async () => {
-                MongoConnection.disconnect();
+                await MongoConnection.disconnect();
                 const statement = await index.createStatement(EnumTestData.BODY_FULL_POST_STATEMENT_SUCCESS, EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
-                MongoConnection.connect();
+                await MongoConnection.connect();
     
                 chai.expect(statement).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
             });
 
             it('listAllStatements', async () => {
-                MongoConnection.disconnect();
+                await MongoConnection.disconnect();
                 const statements = await index.listAllStatements();
-                MongoConnection.connect();
+                await MongoConnection.connect();
     
                 chai.expect(statements).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
             });
 
             it('listStatementsByCpf', async () => {
-                MongoConnection.disconnect();
+                await MongoConnection.disconnect();
                 const statements = await index.listStatementsByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
-                MongoConnection.connect();
+                await MongoConnection.connect();
     
                 chai.expect(statements).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
             });
 
-/*
+
             it('listFullDashboardByCpf', async () => {
-                MongoConnection.disconnect();
+                await MongoConnection.disconnect();
                 const fullDashboard = await index.listFullDashboardByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
-                MongoConnection.connect();
+                await MongoConnection.connect();
     
-                chai.expect(fullDashboard).to.containSubset(EnumUnitTest(500).RESPONSE_FULL_DASHBOARD_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
+                chai.expect(fullDashboard).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
             });
-*/
+
+            it('getBalanceByCpf', async () => {
+                await MongoConnection.disconnect();
+                const balance = await index.getBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+                await MongoConnection.connect();
+    
+                chai.expect(balance).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('getCategoryBalanceByCpf', async () => {
+                await MongoConnection.disconnect();
+                const fullBalance = await index.getCategoryBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+                await MongoConnection.connect();
+    
+                chai.expect(fullBalance).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('deleteAllStatementsByCpf', async () => {
+                await MongoConnection.disconnect();
+                const response = await index.deleteAllStatementsByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+                await MongoConnection.connect();
+    
+                chai.expect(response).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
+            });
+
         });
         describe('Duplicated key (406)', () => {
             
         });
 
         describe('Not found (404)', () => {
-            
+            it('createStatement (category not found)', async () => {
+                const statement = await index.createStatement(EnumTestData.BODY_FULL_POST_STATEMENT_CATEGORY_NOT_FOUND, EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+    
+                chai.expect(statement).to.containSubset(EnumUnitTest(404).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('createStatement (account not found)', async () => {
+                const statement = await index.createStatement(EnumTestData.BODY_FULL_POST_STATEMENT_SUCCESS, 'ddd');
+    
+                chai.expect(statement).to.containSubset(EnumUnitTest(404).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('deleteAllStatementsByCpf', async () => {
+                const response = await index.deleteAllStatementsByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+    
+                chai.expect(response).to.containSubset(EnumUnitTest(404).RESPONSE_OBJECT_NO_DATA);
+            });
         });
     });
 

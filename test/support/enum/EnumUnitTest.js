@@ -101,6 +101,26 @@ module.exports = (statusCode) => Enum({
       categories: [ EnumTestData.SUBSET_DATA_CATEGORY ]
     }
   },
+  RESPONSE_BALANCE_STATEMENT_ARRAY_DATA_SUCCESS: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: {
+      total: total => typeof total === 'number',
+      inflow: inflow => typeof inflow === 'number',
+      outflow: outflow => typeof outflow === 'number'
+    }
+  },
+  RESPONSE_BALANCE_STATEMENT_ARRAY_DATA_ZERO: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: {
+      total: 0,
+      inflow: 0,
+      outflow: 0
+    }
+  },
   RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_ARRAY_DATA_EMPTY: {
     name: name => name,
     httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
@@ -114,10 +134,10 @@ module.exports = (statusCode) => Enum({
     name: name => name,
     httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
     message: message => message,
-    data: {
-      inflow: [ inflow => EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
-      outflow: [ outflow => EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
-    }
+    data: data => ({
+      inflow: [ EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
+      outflow: [ EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
+    })
   }
 
 });

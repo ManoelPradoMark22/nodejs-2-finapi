@@ -44,7 +44,7 @@ router.get("/statement", (req, res) => StatementController.listStatementsByCpf(r
 router.get("/balance", (req, res) => StatementController.getBalanceByCpf(req, res));
 router.get("/full-balance", (req, res) => StatementController.getCategoryBalanceByCpf(req, res));
 
-router.delete("/statement", ModelMiddlewares.checkCpfExistsInStatements,
+router.delete("/statement",
 (req, res) => StatementController.deleteAllStatementsByCpf(req, res));
 
 module.exports = router;
