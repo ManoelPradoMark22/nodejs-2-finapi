@@ -27,6 +27,24 @@ describe('StatementService.js [services]', () => {
             chai.expect(statement).to.containSubset(EnumUnitTest(201).RESPONSE_STATEMENT_OBJECT_SUCCESS);
         });
 
+        it('listAllStatements', async () => {
+            const statements = await index.listAllStatements();
+
+            chai.expect(statements).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
+        });
+
+        it('listStatementsByCpf', async () => {
+            const statements = await index.listStatementsByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+
+            chai.expect(statements).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
+        });
+
+        it('listFullDashboardByCpf', async () => {
+            const statements = await index.listFullDashboardByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+
+            chai.expect(statements).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_DASHBOARD_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
+        });
+
     });
 
     describe('Failure', () => {
@@ -38,6 +56,32 @@ describe('StatementService.js [services]', () => {
     
                 chai.expect(statement).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
             });
+
+            it('listAllStatements', async () => {
+                MongoConnection.disconnect();
+                const statements = await index.listAllStatements();
+                MongoConnection.connect();
+    
+                chai.expect(statements).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('listStatementsByCpf', async () => {
+                MongoConnection.disconnect();
+                const statements = await index.listStatementsByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+                MongoConnection.connect();
+    
+                chai.expect(statements).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
+            });
+
+/*
+            it('listFullDashboardByCpf', async () => {
+                MongoConnection.disconnect();
+                const fullDashboard = await index.listFullDashboardByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+                MongoConnection.connect();
+    
+                chai.expect(fullDashboard).to.containSubset(EnumUnitTest(500).RESPONSE_FULL_DASHBOARD_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
+            });
+*/
         });
         describe('Duplicated key (406)', () => {
             
