@@ -43,6 +43,7 @@ router.get("/full-dashboard", (req, res) => StatementController.listFullDashboar
 router.get("/statement", (req, res) => StatementController.listStatementsByCpf(req, res));
 router.get("/balance", (req, res) => StatementController.getBalanceByCpf(req, res));
 router.get("/full-balance", (req, res) => StatementController.getCategoryBalanceByCpf(req, res));
+router.get("/full-balance-filter", (req, res) => StatementController.getCategoryBalanceByCpfAndDate(req, res));
 
 router.delete("/statement",
 (req, res) => StatementController.deleteAllStatementsByCpf(req, res));

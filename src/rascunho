@@ -1,3 +1,17 @@
+var datatest1 = new Date().toISOString();
+console.log(typeof datatest1);
+let datatest2 = new Date(datatest1);
+console.log(typeof datatest2);
+
+var dinheiro = "R$ 3.222,00";
+dinheiro = dinheiro.replace('.', '');
+dinheiro = dinheiro.replace(',', '.');
+dinheiro = dinheiro.replace('R$ ', '');
+
+dinheiro = Number(dinheiro);
+console.log(dinheiro);
+console.log(typeof dinheiro);
+
 const arrtest = [
   {
     _id: 'new ObjectId("631b5da8ae60bd844c4bf0b1")',

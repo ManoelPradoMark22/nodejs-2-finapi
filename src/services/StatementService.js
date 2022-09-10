@@ -153,6 +153,65 @@ async function getCategoryBalanceByCpf(cpf) {
     }
 }
 
+async function getCategoryBalanceByCpfAndDate(cpf, date) {
+    try{
+        const dateFilter = new Date(date);
+        console.log(dateFilter)
+        let startDate = dateFilter;
+        let finalDate = dateFilter;
+        startDate.setDate(1);
+        startDate.setHours(0,0,0,0);
+        console.log(startDate)
+        finalDate.setDate(1);
+        finalDate.setMonth(dateFilter.getMonth() + 1);
+        finalDate.setHours(0,0,0,0);
+        console.log(finalDate)
+        
+        const arrayBalance = await StatementModel.aggregate([
+            { 
+                $match: { 
+                    $and: [
+                        { accountCpf: cpf },
+                        { createdAt: { $gte: startDate, $lte: finalDate } }
+                    ]
+                } 
+            },
+            { 
+                $group: {
+                    _id: {keyCategory: "$keyCategory", type: "$type"},
+                    amount: {$sum:  "$amount"}
+                } 
+            },
+        ]);
+        console.log(arrayBalance)
+
+        const objBalance = {
+            inflow: [],
+            outflow: []
+        }
+
+        for(let i=0; i<arrayBalance.length; i++){
+            const { _id: obj, amount } = arrayBalance[i];
+            const { type, keyCategory } = obj;
+            objBalance[
+                type == EnumTransactionTypes.TRANSACTION_ENTRY ? 'inflow' : 'outflow'
+            ].push({
+                keyCategory: keyCategory,
+                amount: amount
+            })
+        }
+
+        return ObjectResponse(
+            EnumMessages.SUCCESS_NAME,
+            200,
+            EnumMessages.SUCCESS_GET_FULL_BALANCE,
+            objBalance
+        );
+    }catch(e) {
+        return EnumObjectResponse.SERVER_ERROR;
+    }
+}
+
 async function deleteAllStatementsByCpf(cpf) {
     try{
         const existingStatement = await StatementModel.findOne({ accountCpf: cpf });
@@ -180,5 +239,6 @@ module.exports = {
     listStatementsByCpf,
     getBalanceByCpf,
     getCategoryBalanceByCpf,
+    getCategoryBalanceByCpfAndDate,
     deleteAllStatementsByCpf
 }

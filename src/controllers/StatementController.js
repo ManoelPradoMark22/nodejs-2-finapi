@@ -53,6 +53,15 @@ async function getCategoryBalanceByCpf(req, res) {
     return res.status(httpStatusCode).json(categoryBalance);
 }
 
+async function getCategoryBalanceByCpfAndDate(req, res) {
+    const { cpf, date } = req.headers;
+
+    const categoryBalance = await StatementService.getCategoryBalanceByCpfAndDate(cpf, date);
+    const { httpStatusCode } = categoryBalance;
+
+    return res.status(httpStatusCode).json(categoryBalance);
+}
+
 async function deleteAllStatementsByCpf(req, res) {
     const { cpf } = req.headers;
 
@@ -69,5 +78,6 @@ module.exports = {
     listStatementsByCpf,
     getBalanceByCpf,
     getCategoryBalanceByCpf,
+    getCategoryBalanceByCpfAndDate,
     deleteAllStatementsByCpf 
 }

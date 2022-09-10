@@ -64,7 +64,7 @@ describe('CategoryController.js [controllers]', () => {
         it('updateCategory', async () => {
             const { key } = Categories[0];
             const newBody = Categories[0];
-            newBody.icon = 'edited';
+            newBody.name = 'Compras';
             req.body = newBody;
             req.headers.key = key;
 

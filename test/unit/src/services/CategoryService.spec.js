@@ -30,7 +30,7 @@ describe('CategoryService.js [services]', () => {
 
         it('updateCategory', async () => {
             const { key, ...rest } = Categories[0];
-            rest.name = 'edited';
+            rest.name = 'Compras';
             const category = await index.updateCategory(rest, key);
 
             chai.expect(category).to.containSubset(EnumUnitTest(200).RESPONSE_CATEGORY_OBJECT_SUCCESS);
