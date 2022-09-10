@@ -156,25 +156,31 @@ async function getCategoryBalanceByCpf(cpf) {
 async function getCategoryBalanceByCpfAndDate(cpf, date) {
     try{
         const dateFilter = new Date(date);
-        console.log(dateFilter)
         let startDate = dateFilter;
         let finalDate = dateFilter;
         startDate.setDate(1);
         startDate.setHours(0,0,0,0);
-        console.log(startDate)
+        startDate = startDate.toString();
+        //startDate -> dia 1 do mes (00:00:00:00)
         finalDate.setDate(1);
         finalDate.setMonth(dateFilter.getMonth() + 1);
         finalDate.setHours(0,0,0,0);
-        console.log(finalDate)
+        finalDate = finalDate.toString();
+        //finalDate -> dia 1 do mes seguinte (00:00:00:00)
         
         const arrayBalance = await StatementModel.aggregate([
             { 
-                $match: { 
+                $match: {
                     $and: [
-                        { accountCpf: cpf },
-                        { createdAt: { $gte: startDate, $lte: finalDate } }
+                        { "accountCpf": cpf  },
+                        {
+                            "createdAt": { 
+                                "$gte": new Date(startDate),
+                                "$lt": new Date(finalDate)
+                            } 
+                        }
                     ]
-                } 
+                }
             },
             { 
                 $group: {
