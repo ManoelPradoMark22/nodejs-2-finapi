@@ -1,3 +1,18 @@
+const objeto = { 
+  inflow: { 
+    data: {
+      keyCategory: 'keyCategory',
+      amount: 'amount'
+    } 
+  } 
+}
+
+console.log(objeto['inflow'])
+console.log(objeto['inflow'].data.keyCategory)
+
+var num = 100/2 * 3;
+console.log(num)
+
 var datatest1 = new Date().toISOString();
 console.log(typeof datatest1);
 let datatest2 = new Date(datatest1);

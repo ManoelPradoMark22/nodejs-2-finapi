@@ -189,22 +189,35 @@ async function getCategoryBalanceByCpfAndDate(cpf, date) {
                 } 
             },
         ]);
-        console.log(arrayBalance)
 
         const objBalance = {
-            inflow: [],
-            outflow: []
+            inflow: {
+                data: [],
+                total: 0
+            },
+            outflow: {
+                data: [],
+                total: 0
+            }
         }
 
         for(let i=0; i<arrayBalance.length; i++){
             const { _id: obj, amount } = arrayBalance[i];
             const { type, keyCategory } = obj;
-            objBalance[
-                type == EnumTransactionTypes.TRANSACTION_ENTRY ? 'inflow' : 'outflow'
-            ].push({
-                keyCategory: keyCategory,
-                amount: amount
-            })
+            
+            if(type == EnumTransactionTypes.TRANSACTION_ENTRY) {
+                objBalance.inflow.data.push({
+                    keyCategory: keyCategory,
+                    amount: amount
+                });
+                objBalance.inflow.total += amount;
+            }else {
+                objBalance.outflow.data.push({
+                    keyCategory: keyCategory,
+                    amount: amount
+                });
+                objBalance.outflow.total += amount;
+            }
         }
 
         return ObjectResponse(
