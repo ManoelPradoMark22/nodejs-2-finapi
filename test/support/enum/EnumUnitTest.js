@@ -121,6 +121,36 @@ module.exports = (statusCode) => Enum({
       outflow: 0
     }
   },
+  RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_FILTER_DATA_EMPTY: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: {
+      inflow: {
+        data: [],
+        total: 0
+      },
+      outflow: {
+        data: [],
+        total: 0
+      }
+    }
+  },
+  RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_FILTER_DATA_SUCCESS: {
+    name: name => name,
+    httpStatusCode: httpStatusCode => httpStatusCode===statusCode,
+    message: message => message,
+    data: data => ({
+      inflow: inflow => ({
+        data: [ EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
+        total: 0
+      }),
+      outflow: outflow => ({
+        data: [ EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
+        total: 0
+      })
+    })
+  },
   RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_ARRAY_DATA_EMPTY: {
     name: name => name,
     httpStatusCode: httpStatusCode => httpStatusCode===statusCode,

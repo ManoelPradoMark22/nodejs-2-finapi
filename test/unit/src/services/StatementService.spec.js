@@ -19,12 +19,20 @@ describe('StatementService.js [services]', () => {
         await Statement.deleteMany({});
     });
 
+    const dateNow = new Date();
+
     describe('Success', () => {
 
         it('getBalanceByCpf (fields ZERO)', async () => {
             const statements = await index.getBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
 
             chai.expect(statements).to.containSubset(EnumUnitTest(200).RESPONSE_BALANCE_STATEMENT_ARRAY_DATA_ZERO);
+        });
+
+        it('getCategoryBalanceByCpfAndDate (empty)', async () => {
+            const fullBalance = await index.getCategoryBalanceByCpfAndDate(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf, dateNow.toString());
+
+            chai.expect(fullBalance).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_FILTER_DATA_EMPTY);
         });
 
         for(let i=0; i<4; i++) {
@@ -71,6 +79,12 @@ describe('StatementService.js [services]', () => {
             const fullBalance = await index.getCategoryBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
 
             chai.expect(fullBalance).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_ARRAY_DATA_SUCCESS);
+        });
+
+        it('getCategoryBalanceByCpfAndDate', async () => {
+            const fullBalance = await index.getCategoryBalanceByCpfAndDate(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf, dateNow.toString());
+
+            chai.expect(fullBalance).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_FILTER_DATA_SUCCESS);
         });
 
         it('deleteAllStatementsByCpf', async () => {
@@ -127,6 +141,14 @@ describe('StatementService.js [services]', () => {
             it('getCategoryBalanceByCpf', async () => {
                 await MongoConnection.disconnect();
                 const fullBalance = await index.getCategoryBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
+                await MongoConnection.connect();
+    
+                chai.expect(fullBalance).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
+            });
+
+            it('getCategoryBalanceByCpfAndDate', async () => {
+                await MongoConnection.disconnect();
+                const fullBalance = await index.getCategoryBalanceByCpfAndDate(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf, dateNow.toString());
                 await MongoConnection.connect();
     
                 chai.expect(fullBalance).to.containSubset(EnumUnitTest(500).RESPONSE_OBJECT_NO_DATA);
