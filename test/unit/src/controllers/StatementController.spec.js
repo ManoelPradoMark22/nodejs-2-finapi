@@ -17,6 +17,8 @@ describe('StatementController.js [controllers]', () => {
         await Statement.deleteMany({});
     });
 
+    const dateNow = new Date();
+
     let status, json, res, req;
     beforeEach(() => {
         status = sinon.stub();
@@ -25,7 +27,10 @@ describe('StatementController.js [controllers]', () => {
         status.returns(res);
         req = {
             body: {},
-            headers: { cpf: cpf => cpf }
+            headers: { 
+                cpf: cpf => cpf,
+                date: date => date
+            }
         }
     });
 
@@ -132,6 +137,19 @@ describe('StatementController.js [controllers]', () => {
             chai.expect(status.args[0][0]).to.equal(200);
             chai.expect(json.calledOnce).to.be.true;
             chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
+        });
+
+        it('getCategoryBalanceByCpfAndDate', async () => {
+            req.headers.cpf = EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf;
+            req.headers.date = dateNow.toString();
+
+            await index.getCategoryBalanceByCpfAndDate(req, res);
+            
+            chai.expect(status.calledOnce).to.be.true;
+            chai.expect(status.args[0][0]).to.equal(200);
+            chai.expect(json.calledOnce).to.be.true;
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_FILTER_DATA_SUCCESS);
             chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
         });
 

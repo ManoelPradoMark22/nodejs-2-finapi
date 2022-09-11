@@ -142,11 +142,11 @@ module.exports = (statusCode) => Enum({
     message: message => message,
     data: data => ({
       inflow: inflow => ({
-        data: [ EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
+        data: data => [ EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
         total: 0
       }),
       outflow: outflow => ({
-        data: [ EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
+        data: data => [ EnumTestData.SUBSET_BALANCE_BY_CATEGORY ],
         total: 0
       })
     })
