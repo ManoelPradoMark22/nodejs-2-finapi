@@ -7,6 +7,7 @@ function validateBodyPOSTCategory(req, res, next) {
     key: EnumJoi.CATEGORY_KEY_JOY.required(),
     name: EnumJoi.CATEGORY_NAME_JOY.required(),
     icon: EnumJoi.CATEGORY_NAME_JOY.required(),
+    color: EnumJoi.CATEGORY_COLOR_JOY.required(),
   });
 
   ReturnValidate.bodyValidate(schema, req, res, next);
@@ -16,6 +17,7 @@ function validateBodyPUTCategory(req, res, next) {
   const schema = Joi.object().keys({
     name: EnumJoi.CATEGORY_NAME_JOY,
     icon: EnumJoi.CATEGORY_NAME_JOY,
+    color: EnumJoi.CATEGORY_COLOR_JOY
   }).min(1);
 
   ReturnValidate.bodyValidate(schema, req, res, next);

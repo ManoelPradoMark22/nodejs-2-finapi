@@ -13,6 +13,7 @@ module.exports = Enum({
   FAILED_TO_GET_BALANCE: "Failed to get balance",
   
   INVALID_CPF: "Invalid cpf!",
+  INVALID_COLOR: "Invalid color! Hexadecimal required (with #)!",
   MISSING_CPF: "Cpf is required!",
   MISSING_CATEGORY_KEY: "Category's key is required!",
   

@@ -17,6 +17,11 @@ const CategorySchema = new mongoose.Schema(
       type: 'string',
       unique: true,
       required: true
+    },
+    color: {
+      type: 'string',
+      unique: true,
+      required: true
     }
   }
 );
