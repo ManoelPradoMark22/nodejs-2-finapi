@@ -26,7 +26,7 @@ describe('StatementService.js [services]', () => {
         it('getBalanceByCpf (fields ZERO)', async () => {
             const statements = await index.getBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
 
-            chai.expect(statements).to.containSubset(EnumUnitTest(200).RESPONSE_BALANCE_STATEMENT_ARRAY_DATA_ZERO);
+            chai.expect(statements).to.containSubset(EnumUnitTest(200).RESPONSE_BALANCE_STATEMENT_DATA_ZERO);
         });
 
         it('getCategoryBalanceByCpfAndDate (empty)', async () => {
@@ -72,7 +72,7 @@ describe('StatementService.js [services]', () => {
         it('getBalanceByCpf', async () => {
             const balance = await index.getBalanceByCpf(EnumTestData.BODY_FULL_POST_SUCCESS_FIXED.cpf);
 
-            chai.expect(balance).to.containSubset(EnumUnitTest(200).RESPONSE_BALANCE_STATEMENT_ARRAY_DATA_SUCCESS);
+            chai.expect(balance).to.containSubset(EnumUnitTest(200).RESPONSE_BALANCE_STATEMENT_DATA_SUCCESS);
         });
 
         it('getCategoryBalanceByCpf', async () => {

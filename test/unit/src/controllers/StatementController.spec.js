@@ -112,7 +112,7 @@ describe('StatementController.js [controllers]', () => {
             chai.expect(status.calledOnce).to.be.true;
             chai.expect(status.args[0][0]).to.equal(200);
             chai.expect(json.calledOnce).to.be.true;
-            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS_ARRAY_DATA);
             chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
         });
 
@@ -124,7 +124,7 @@ describe('StatementController.js [controllers]', () => {
             chai.expect(status.calledOnce).to.be.true;
             chai.expect(status.args[0][0]).to.equal(200);
             chai.expect(json.calledOnce).to.be.true;
-            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_BALANCE_STATEMENT_DATA_SUCCESS);
             chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
         });
 
@@ -136,7 +136,7 @@ describe('StatementController.js [controllers]', () => {
             chai.expect(status.calledOnce).to.be.true;
             chai.expect(status.args[0][0]).to.equal(200);
             chai.expect(json.calledOnce).to.be.true;
-            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_STATEMENT_OBJECT_SUCCESS);
+            chai.expect(json.args[0][0]).to.containSubset(EnumUnitTest(200).RESPONSE_FULL_BALANCE_STATEMENT_BY_CATEGORY_ARRAY_DATA_SUCCESS);
             chai.expect(json.args[0][0].httpStatusCode).to.equal(200);
         });
 
