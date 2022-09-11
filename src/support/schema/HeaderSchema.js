@@ -12,17 +12,28 @@ function validateHeaderCpf(req, res, next) {
   ReturnValidate.headerValidate(schema, cpf, res, next);
 };
 
+function validateHeaderDate(req, res, next) {
+  const { date } = req.headers;
+
+  if(!date) return ReturnValidate.returnErrorResponse(res, 422, EnumMessages.MISSING_DATE);
+
+  const schema = EnumJoi.DATE_JOI;
+
+  ReturnValidate.headerValidate(schema, date, res, next);
+};
+
 function validateHeaderKey(req, res, next) {
   const { key } = req.headers;
 
-  if(!key) return res.status(422).json({
-    status: 'error',
-    message: EnumMessages.MISSING_CATEGORY_KEY
-  });
+  if(!key) return ReturnValidate.returnErrorResponse(res, 422, EnumMessages.MISSING_CATEGORY_KEY);
 
   const schema = EnumJoi.CATEGORY_KEY_JOY;
 
   ReturnValidate.headerValidate(schema, key, res, next);
 };
 
-module.exports = { validateHeaderCpf, validateHeaderKey }
+module.exports = { 
+  validateHeaderCpf,
+  validateHeaderDate,
+  validateHeaderKey
+}

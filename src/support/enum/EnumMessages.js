@@ -15,6 +15,7 @@ module.exports = Enum({
   INVALID_CPF: "Invalid cpf!",
   INVALID_COLOR: "Invalid color! Hexadecimal required (with #)!",
   MISSING_CPF: "Cpf is required!",
+  MISSING_DATE: "Date is required!",
   MISSING_CATEGORY_KEY: "Category's key is required!",
   
   FAILURE_DELETE: 'Fail to delete!',
