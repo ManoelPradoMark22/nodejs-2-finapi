@@ -3,7 +3,7 @@ const RandomGenerate = require('../util/RandomGenerate');
 
 module.exports = Enum({
 
-  VALID_AND_EXISTING_ACCOUNT_CPF: '84293271007',
+  VALID_AND_EXISTING_ACCOUNT_CPF: '06350390520',
   VALID_AND_NON_EXISTENT_ACCOUNT_CPF: '18925985071',
   INVALID_CPF: '02303950521',
 
@@ -44,6 +44,12 @@ module.exports = Enum({
     lastName: RandomGenerate.name(),
     email: RandomGenerate.email(),
     cellphone: RandomGenerate.cellphone()
+  },
+  BODY_FULL_PUT_FIXED: {
+    firstName: "Manoel de Oliveira",
+    lastName: "Prado Neto",
+    email: 'manoelprado.aecjr@gmail.com',
+    cellphone: '77991998770'
   },
   BODY_FULL_PUT_DUPLICATED_KEY: {
     firstName: "Bruna",
