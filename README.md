@@ -1,6 +1,5 @@
 ## FinApi 
 ![tools](./src/support/util/finapi.png)
-<img src="https://i.ibb.co/0jD76jv/bag-ge7078e7fb-640.png" width="32" height="44"/>
 ---
 
 ### Requisitos
